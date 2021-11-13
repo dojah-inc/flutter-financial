@@ -29,14 +29,14 @@ TODO: Include short and useful examples for package users. Add longer examples
 to `/example` folder. 
 
 ```dart
-DojahFinancial _dojahFinancial = DojahFinancial(
-    appId: '60d4aebc1e90de0033ad14ad',
-    publicKey: 'test_pk_oqKIovYvOO9b3H9SPCny143yq',
+ final DojahFinancial _dojahFinancial = DojahFinancial(
+    appId: 'xxxxxxxxxxxxxxx',
+    publicKey: 'prod_pk_xxxxxxxxxxxxxx',
   );
 
-  _dojahFinancial.open(context, success: (result) {
+  _dojahFinancial.open(context, onSuccess: (result) {
     print('$result');
-  }, error: (err) {
+  }, onError: (err) {
     print('error: $err');
   });
 ```

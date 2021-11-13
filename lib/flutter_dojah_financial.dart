@@ -15,8 +15,8 @@ class DojahFinancial {
   });
 
   Future<void> open(BuildContext context,
-      {Function(dynamic result)? success,
-      Function(dynamic error)? error}) async {
+      {Function(dynamic result)? onSuccess,
+      Function(dynamic error)? onError}) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -24,10 +24,10 @@ class DojahFinancial {
           appId: appId,
           publicKey: publicKey,
           success: (result) {
-            success!(result);
+            onSuccess!(result);
           },
           error: (error) {
-            error(error);
+            onError!(error);
           },
         ),
       ),
