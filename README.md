@@ -32,7 +32,7 @@ to `/example` folder.
  final DojahFinancial _dojahFinancial = DojahFinancial(
     appId: 'xxxxxxxxxxxxxxx',
     publicKey: 'prod_pk_xxxxxxxxxxxxxx',
-    type : 'liveness'  //link, identification, verification
+    type : 'liveness'  //link, identification, verification, payment
   );
 
   _dojahFinancial.open(context, onSuccess: (result) {
