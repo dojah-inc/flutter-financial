@@ -14,9 +14,11 @@ class DojahFinancial {
     this.onCloseCallback,
   });
 
-  Future<void> open(BuildContext context,
-      {Function(dynamic result)? onSuccess,
-      Function(dynamic error)? onError}) async {
+  Future<void> open(
+    BuildContext context, {
+    Function(dynamic result)? onSuccess,
+    Function(dynamic error)? onError,
+  }) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
