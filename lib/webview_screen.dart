@@ -106,7 +106,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                 print(consoleMessage.message);
               },
             )
-          : const Center(child: Text("Please grant camera permissions")),
+          : const Center(child: Text("Please grant camera permissions...")),
     );
   }
 }
