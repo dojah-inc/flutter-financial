@@ -29,6 +29,11 @@ TODO: Include short and useful examples for package users. Add longer examples
 to `/example` folder. 
 
 ```dart
+final DojahConfig config = DojahConfig(
+  debug: true,
+  otp: true, //for verification type
+  selfie: true //for verification type
+);
  final DojahFinancial _dojahFinancial = DojahFinancial(
     appId: 'xxxxxxxxxxxxxxx',
     publicKey: 'prod_pk_xxxxxxxxxxxxxx',
