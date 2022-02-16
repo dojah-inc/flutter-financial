@@ -5,6 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 class WebviewScreen extends StatefulWidget {
   final String appId;
   final String publicKey;
+  final String type;
   final Function(dynamic) success;
   final Function(dynamic) error;
   const WebviewScreen({
@@ -13,6 +14,7 @@ class WebviewScreen extends StatefulWidget {
     required this.publicKey,
     required this.success,
     required this.error,
+    required this.type,
   }) : super(key: key);
 
   @override
@@ -58,6 +60,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
           const options = {
               app_id: "${widget.appId}",
               p_key: "${widget.publicKey}",
+              type: "${widget.type}"
               onSuccess: function (response) {
                window.flutter_inappwebview.callHandler('onSuccessCallback', response)
               },

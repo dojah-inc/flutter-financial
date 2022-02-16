@@ -6,12 +6,14 @@ import 'package:flutter_dojah_financial/webview_screen.dart';
 class DojahFinancial {
   final String appId;
   final String publicKey;
+  final String type;
   final Function(dynamic)? onCloseCallback;
 
   DojahFinancial({
     required this.appId,
     required this.publicKey,
     this.onCloseCallback,
+    required this.type,
   });
 
   Future<void> open(
@@ -25,6 +27,7 @@ class DojahFinancial {
         builder: (context) => WebviewScreen(
           appId: appId,
           publicKey: publicKey,
+          type: type,
           success: (result) {
             onSuccess!(result);
           },
