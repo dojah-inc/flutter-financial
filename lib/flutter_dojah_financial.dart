@@ -1,12 +1,13 @@
 library flutter_dojah_financial;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dojah_financial/type_enum.dart';
 import 'package:flutter_dojah_financial/webview_screen.dart';
 
 class DojahFinancial {
   final String appId;
   final String publicKey;
-  final String type;
+  final DojahFinancialType type;
   final Function(dynamic)? onCloseCallback;
 
   DojahFinancial({

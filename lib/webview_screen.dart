@@ -1,11 +1,13 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dojah_financial/type_enum.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class WebviewScreen extends StatefulWidget {
   final String appId;
   final String publicKey;
-  final String type;
+  final DojahFinancialType type;
   final Function(dynamic) success;
   final Function(dynamic) error;
   const WebviewScreen({
@@ -61,7 +63,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                   const options = {
                                       app_id: "${widget.appId}",
                                       p_key: "${widget.publicKey}",
-                                      type: "${widget.type}"
+                                      type: "${EnumToString.convertToString(widget.type)}"
                                       onSuccess: function (response) {
                                       window.flutter_inappwebview.callHandler('onSuccessCallback', response)
                                       },
