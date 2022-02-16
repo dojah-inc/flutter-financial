@@ -64,8 +64,8 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                   const options = {
                                       app_id: "${widget.appId}",
                                       p_key: "${widget.publicKey}",
-                                      type: "${widget.type}"
-                                      config: "${widget.config?.toJson()}",
+                                      type: "${widget.type}",
+                                      config: ${widget.config?.toJson()},
                                       onSuccess: function (response) {
                                       window.flutter_inappwebview.callHandler('onSuccessCallback', response)
                                       },
