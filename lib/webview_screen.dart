@@ -46,70 +46,80 @@ class _WebviewScreenState extends State<WebviewScreen> {
     return Scaffold(
       body: isGranted
           ? InAppWebView(
-              initialData: InAppWebViewInitialData(data: """
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dojah Inc.</title>
-</head>
-<body>
+              initialData: InAppWebViewInitialData(
+                data: """
+                      <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>Dojah Inc.</title>
+                        </head>
+                        <body>
 
-<script src="https://widget.dojah.io/widget.js"></script>
-<script>
-          const options = {
-              app_id: "${widget.appId}",
-              p_key: "${widget.publicKey}",
-              type: "${widget.type}"
-              onSuccess: function (response) {
-               window.flutter_inappwebview.callHandler('onSuccessCallback', response)
-              },
-              onError: function (err) {
-                window.flutter_inappwebview.callHandler('onErrorCallback', error)
-              },
-              onClose: function () {
-                window.flutter_inappwebview.callHandler('onCloseCallback', 'close')
-              }
-          }
+                        <script src="https://widget.dojah.io/widget.js"></script>
+                        <script>
+                                  const options = {
+                                      app_id: "${widget.appId}",
+                                      p_key: "${widget.publicKey}",
+                                      type: "${widget.type}"
+                                      onSuccess: function (response) {
+                                      window.flutter_inappwebview.callHandler('onSuccessCallback', response)
+                                      },
+                                      onError: function (err) {
+                                        window.flutter_inappwebview.callHandler('onErrorCallback', error)
+                                      },
+                                      onClose: function () {
+                                        window.flutter_inappwebview.callHandler('onCloseCallback', 'close')
+                                      }
+                                  }
 
-            const connect = new Connect(options);
-            connect.setup();
-            connect.open();
-      </script>
-</body>
-</html>
-                  """),
+                                    const connect = new Connect(options);
+                                    connect.setup();
+                                    connect.open();
+                              </script>
+                        </body>
+                      </html>
+                  """,
+              ),
               initialOptions: InAppWebViewGroupOptions(
-                  crossPlatform: InAppWebViewOptions()),
+                crossPlatform: InAppWebViewOptions(),
+              ),
               onWebViewCreated: (InAppWebViewController controller) {
                 _webViewController = controller;
 
                 _webViewController?.addJavaScriptHandler(
-                    handlerName: 'onSuccessCallback',
-                    callback: (response) {
-                      widget.success(response);
-                    });
+                  handlerName: 'onSuccessCallback',
+                  callback: (response) {
+                    widget.success(response);
+                  },
+                );
 
                 _webViewController?.addJavaScriptHandler(
-                    handlerName: 'onCloseCallback',
-                    callback: (response) {
-                      // widget.onCloseCallback!(response);
-                      if (response.first == 'close') {
-                        Navigator.pop(context);
-                      }
-                    });
+                  handlerName: 'onCloseCallback',
+                  callback: (response) {
+                    // widget.onCloseCallback!(response);
+                    if (response.first == 'close') {
+                      Navigator.pop(context);
+                    }
+                  },
+                );
 
                 _webViewController?.addJavaScriptHandler(
-                    handlerName: 'onErrorCallback',
-                    callback: (error) {
-                      widget.error(error);
-                    });
+                  handlerName: 'onErrorCallback',
+                  callback: (error) {
+                    widget.error(error);
+                  },
+                );
               },
-              onConsoleMessage: (controller, consoleMessage) {
-                print(consoleMessage.message);
-              },
+              // onConsoleMessage: (controller, consoleMessage) {
+              //   print(consoleMessage.message);
+              // },
             )
-          : const Center(child: Text("Please grant camera permissions...")),
+          : const Center(
+              child: Text(
+                "Please grant camera permissions...",
+              ),
+            ),
     );
   }
 }
