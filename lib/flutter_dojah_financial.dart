@@ -1,20 +1,22 @@
 library flutter_dojah_financial;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dojah_financial/type_enum.dart';
+import 'package:flutter_dojah_financial/config.dart';
 import 'package:flutter_dojah_financial/webview_screen.dart';
 
 class DojahFinancial {
   final String appId;
   final String publicKey;
-  final DojahFinancialType type;
+  final String type;
+  final DojahConfig? config;
   final Function(dynamic)? onCloseCallback;
 
   DojahFinancial({
     required this.appId,
     required this.publicKey,
-    this.onCloseCallback,
     required this.type,
+    this.onCloseCallback,
+    this.config,
   });
 
   Future<void> open(
@@ -29,6 +31,7 @@ class DojahFinancial {
           appId: appId,
           publicKey: publicKey,
           type: type,
+          config: config,
           success: (result) {
             onSuccess!(result);
           },
