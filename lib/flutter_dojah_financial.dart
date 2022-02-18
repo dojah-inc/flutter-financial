@@ -1,14 +1,13 @@
 library flutter_dojah_financial;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dojah_financial/config.dart';
 import 'package:flutter_dojah_financial/webview_screen.dart';
 
 class DojahFinancial {
   final String appId;
   final String publicKey;
   final String type;
-  final DojahConfig? config;
+  final Map<String, dynamic>? config;
   final Function(dynamic)? onCloseCallback;
 
   DojahFinancial({
