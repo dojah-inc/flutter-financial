@@ -18,10 +18,25 @@ know whether this package might be useful for them.
 
 TODO: List what your package can do. Maybe include images, gifs, or videos.
 
-## Getting started
+## Installation
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+First, add flutter_dojah_financial as a dependency in your `pubspec.yaml` file.
+
+### iOS
+Add the following keys to your Info.plist file, located in `<project root>/ios/Runner/Info.plist`:
+
+- `NSCameraUsageDescription` - describe why your app needs access to the camera. This is called Privacy - Camera Usage Description in the visual editor.
+
+- `NSMicrophoneUsageDescription` - describe why your app needs access to the microphone, if you intend to record videos. This is called Privacy - Microphone Usage Description in the visual editor.
+
+### Android
+```
+// Add the camera permission: 
+<uses-permission android:name="android.permission.CAMERA" />
+// Add the modify audio settings permission:
+<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+```
+
 
 ## Usage
 
@@ -29,15 +44,16 @@ TODO: Include short and useful examples for package users. Add longer examples
 to `/example` folder. 
 
 ```dart
-final DojahConfig config = DojahConfig(
+final Map<String,dynamic> config = {
   debug: true,
   otp: true, //for verification type
   selfie: true //for verification type
-);
+};
  final DojahFinancial _dojahFinancial = DojahFinancial(
     appId: 'xxxxxxxxxxxxxxx',
     publicKey: 'prod_pk_xxxxxxxxxxxxxx',
     type : 'liveness'  //link, identification, verification, payment
+    config: config
   );
 
   _dojahFinancial.open(context, onSuccess: (result) {
@@ -46,6 +62,22 @@ final DojahConfig config = DojahConfig(
     print('error: $err');
   });
 ```
+
+
+## Deployment 
+
+`REMEMBER TO CHANGE THE APP ID and PUBLIC KEY WHEN DEPLOYING TO A LIVE (PRODUCTION) ENVIRONMENT`
+
+
+## Contriburing
+
+- Fork it!
+- Create your feature branch: `git checkout -b feature/feature-name`
+- Commit your changes: `git commit -am 'Some commit message'`
+- Push to the branch: `git push origin feature/feature-name`
+- Submit a pull request 😉😉
+
+
 
 ## Additional information
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dojah_financial/config.dart';
+import 'dart:convert';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -7,7 +7,7 @@ class WebviewScreen extends StatefulWidget {
   final String appId;
   final String publicKey;
   final String type;
-  final DojahConfig? config;
+  final Map<String, dynamic>? config;
   final Function(dynamic) success;
   final Function(dynamic) error;
   const WebviewScreen({
@@ -65,7 +65,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                       app_id: "${widget.appId}",
                                       p_key: "${widget.publicKey}",
                                       type: "${widget.type}",
-                                      config: ${widget.config?.toJson()},
+                                      config: ${json.encode(widget.config ?? {})},
                                       onSuccess: function (response) {
                                       window.flutter_inappwebview.callHandler('onSuccessCallback', response)
                                       },
