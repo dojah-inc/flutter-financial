@@ -7,22 +7,25 @@ class DojahFinancial {
   final String appId;
   final String publicKey;
   final String type;
-  final Map<String, dynamic>? config;
+  final Map<String, dynamic> user_data;
+  final Map<String, dynamic> config;
   final Function(dynamic)? onCloseCallback;
+  // final Function(String)? amount;
+  
 
   DojahFinancial({
     required this.appId,
     required this.publicKey,
     required this.type,
+    required this.user_data,
+    required this.config,
+    // this.amount,
     this.onCloseCallback,
-    this.config,
   });
 
-  Future<void> open(
-    BuildContext context, {
-    Function(dynamic result)? onSuccess,
-    Function(dynamic error)? onError,
-  }) async {
+  Future<void> open(BuildContext context,
+      {Function(dynamic result)? onSuccess,
+      Function(dynamic error)? onError}) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -30,7 +33,9 @@ class DojahFinancial {
           appId: appId,
           publicKey: publicKey,
           type: type,
+          user_data: user_data,
           config: config,
+          // amount: amount,
           success: (result) {
             onSuccess!(result);
           },
