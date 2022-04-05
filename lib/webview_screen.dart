@@ -40,16 +40,14 @@ class _WebviewScreenState extends State<WebviewScreen> {
 <head>
     <meta charset="UTF-8">
 
-    <meta
- name="viewport"
- content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=1"
-/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=1"/>
+
     <title>Dojah Inc.</title>
 </head>
 <body>
 
-<script src="https://widget.dojah.io/widget.js"></script>
-<script>
+    <script src="https://widget.dojah.io/widget.js"></script>
+      <script>
           const options = {
               app_id: "${widget.appId}",
               p_key: "${widget.publicKey}",
