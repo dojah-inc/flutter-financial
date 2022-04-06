@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-
+import 'dart:convert';
 class WebviewScreen extends StatefulWidget {
   final String appId;
   final String publicKey;
   final String type;
-   final Map<String, dynamic> user_data;
+   final Map<String, dynamic> userData;
   final Map<String, dynamic> config;
   final Function(dynamic) success;
   final Function(dynamic) error;
@@ -14,7 +14,7 @@ class WebviewScreen extends StatefulWidget {
     required this.appId,
     required this.publicKey,
     required this.type,
-    required this.user_data,
+    required this.userData,
     required this.config,
     // required this.amount,
     required this.success,
@@ -39,7 +39,6 @@ class _WebviewScreenState extends State<WebviewScreen> {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta
  name="viewport"
  content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=1"
@@ -47,15 +46,14 @@ class _WebviewScreenState extends State<WebviewScreen> {
     <title>Dojah Inc.</title>
 </head>
 <body>
-
 <script src="https://widget.dojah.io/widget.js"></script>
 <script>
           const options = {
               app_id: "${widget.appId}",
               p_key: "${widget.publicKey}",
               type: "${widget.type}",
-              user_data: "${widget.user_data}",
-              config: "${widget.config}",
+              user_data: ${json.encode(widget.userData)},
+              config: ${json.encode(widget.config)},
              
          
               onSuccess: function (response) {
@@ -68,7 +66,6 @@ class _WebviewScreenState extends State<WebviewScreen> {
                 window.flutter_inappwebview.callHandler('onCloseCallback', 'close')
               }
           }
-
             const connect = new Connect(options);
             connect.setup();
             connect.open();
