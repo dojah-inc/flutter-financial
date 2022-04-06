@@ -7,7 +7,7 @@ class DojahFinancial {
   final String appId;
   final String publicKey;
   final String type;
-  final Map<String, dynamic> user_data;
+  final Map<String, dynamic> userData;
   final Map<String, dynamic> config;
   final Function(dynamic)? onCloseCallback;
   // final Function(String)? amount;
@@ -17,7 +17,7 @@ class DojahFinancial {
     required this.appId,
     required this.publicKey,
     required this.type,
-    required this.user_data,
+    required this.userData,
     required this.config,
     // this.amount,
     this.onCloseCallback,
@@ -33,7 +33,7 @@ class DojahFinancial {
           appId: appId,
           publicKey: publicKey,
           type: type,
-          user_data: user_data,
+          userData: userData,
           config: config,
           // amount: amount,
           success: (result) {
