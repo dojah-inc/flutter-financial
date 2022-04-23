@@ -45,6 +45,8 @@ class _WebviewScreenState extends State<WebviewScreen> {
 <body>
 <script src="https://widget.dojah.io/widget.js"></script>
 <script>
+
+        
           const options = {
               app_id: "${widget.appId}",
               p_key: "${widget.publicKey}",
