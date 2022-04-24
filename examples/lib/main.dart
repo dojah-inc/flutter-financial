@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dojah_financial/flutter_dojah_financial.dart';
 import 'dart:convert';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:camera/camera.dart';
 // import 'package:logger/logger.dart';
 void main() {
   runApp(const MyApp());
@@ -56,6 +57,15 @@ class _HomePageState extends State<HomePage> {
 
 // logger.d("Logger is working!");
 
+
+
+//  late CameraController controller;
+
+//   XFile? pictureFile;
+
+
+
+  
   DojahFinancial? _dojahFinancial;
 
   @override
@@ -130,6 +140,7 @@ class _HomePageState extends State<HomePage> {
         // ],
       
           };
+
 
           //Use your appId and publicKey
           _dojahFinancial = DojahFinancial(appId: "6000604fb87ea60035ef41bb", 
@@ -240,7 +251,7 @@ class _HomePageState extends State<HomePage> {
               child: TextButton(  
                 child: Text('Liveness Widget', style: TextStyle(fontSize: 20.0),),  
         
-        onPressed: () {
+        onPressed: () async{
 
           final userData =  {
             "first_name": "Chijioke",
@@ -288,7 +299,31 @@ class _HomePageState extends State<HomePage> {
               child: TextButton(  
                 child: Text('Custom Widget', style: TextStyle(fontSize: 20.0),),  
         
-        onPressed: () {
+        onPressed: () async{
+
+
+        // @override
+        //   void initState() {
+        //     super.initState();
+          
+        //     controller.initialize().then((_) {
+        //       if (!mounted) {
+        //         return;
+        //       }
+        //       setState(() {});
+        //     });
+        //   }
+
+        //   @override
+        //   void dispose() {
+        //     controller.dispose();
+        //     super.dispose();
+        //   }
+
+              
+
+        //           pictureFile = await controller.takePicture();
+
 
                 void _askCameraPermission() async {
                     final requestCam = await Permission.camera.request();
@@ -296,11 +331,12 @@ class _HomePageState extends State<HomePage> {
                     print(requestCam);
                       
 
-                    //  final requestMic = await Permission.microphone.request();
+                      //  final requestMic = await Permission.microphone.request();
 
                     // print(requestMic);
 
-                                    
+                    //  cameras = await availableCameras();
+                    //  runApp(CameraApp());
                       ///// await openAppSettings();
 
                  
@@ -404,12 +440,84 @@ class _HomePageState extends State<HomePage> {
 }     
 
       
+// import 'package:camera/camera.dart';
+// import 'package:flutter/material.dart';
 
+// class CameraPage extends StatefulWidget {
+//   final List<CameraDescription>? cameras;
+//   const CameraPage({this.cameras, Key? key}) : super(key: key);
 
+//   @override
+//   _CameraPageState createState() => _CameraPageState();
+// }
 
+// class _CameraPageState extends State<CameraPage> {
+//   late CameraController controller;
+//   XFile? pictureFile;
 
+//   @override
+//   void initState() {
+//     super.initState();
+//     controller = CameraController(
+//       widget.cameras![0],
+//       ResolutionPreset.max,
+//     );
+//     controller.initialize().then((_) {
+//       if (!mounted) {
+//         return;
+//       }
+//       setState(() {});
+//     });
+//   }
 
+//   @override
+//   void dispose() {
+//     controller.dispose();
+//     super.dispose();
+//   }
 
+//   @override
+//   Widget build(BuildContext context) {
+//     if (!controller.value.isInitialized) {
+//       return const SizedBox(
+//         child: Center(
+//           child: CircularProgressIndicator(),
+//         ),
+//       );
+//     }
+//     return Column(
+//       children: [
+//         Padding(
+//           padding: const EdgeInsets.all(8.0),
+//           child: Center(
+//             child: SizedBox(
+//               height: 400,
+//               width: 400,
+//               child: CameraPreview(controller),
+//             ),
+//           ),
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.all(8.0),
+//           child: ElevatedButton(
+//             onPressed: () async {
+//               pictureFile = await controller.takePicture();
+//               setState(() {});
+//             },
+//             child: const Text('Capture Image'),
+//           ),
+//         ),
+//         if (pictureFile != null)
+//           Image.network(
+//             pictureFile!.path,
+//             height: 200,
+//           )
+//           //Android/iOS
+//           // Image.file(File(pictureFile!.path)))
+//       ],
+//     );
+//   }
+// }
 
 
       

@@ -1,4 +1,6 @@
 PODS:
+  - camera (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_inappwebview (0.0.1):
     - Flutter
@@ -12,6 +14,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - camera (from `.symlinks/plugins/camera/ios`)
   - Flutter (from `Flutter`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
@@ -21,6 +24,8 @@ SPEC REPOS:
     - OrderedSet
 
 EXTERNAL SOURCES:
+  camera:
+    :path: ".symlinks/plugins/camera/ios"
   Flutter:
     :path: Flutter
   flutter_inappwebview:
@@ -29,11 +34,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler/ios"
 
 SPEC CHECKSUMS:
+  camera: 9993f92f2c793e87b65e35f3a23c70582afb05b1
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
 
-PODFILE CHECKSUM: eb81ddb2f698881c9973dd6c2e188019e53c92f9
+PODFILE CHECKSUM: 8663a9d1662961b3538e8152c89c44eb10a7f397
 
 COCOAPODS: 1.11.2

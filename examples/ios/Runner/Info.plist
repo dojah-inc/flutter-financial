@@ -26,10 +26,12 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-
 	<key>NSCameraUsageDescription</key>
     <string>Dojah Flutter camera description.</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>Dojah Flutter microphone description.</string>
 	<key>UISupportedInterfaceOrientations</key>
+	
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
