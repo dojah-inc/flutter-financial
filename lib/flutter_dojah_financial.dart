@@ -7,8 +7,8 @@ class DojahFinancial {
   final String appId;
   final String publicKey;
   final String type;
-  final Map<String, dynamic> userData;
-  final Map<String, dynamic> config;
+  final Map<String, dynamic>? userData;
+  final Map<String, dynamic>? config;
   final Function(dynamic)? onCloseCallback;
   // final Function(String)? amount;
   

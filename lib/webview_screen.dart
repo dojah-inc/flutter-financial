@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'dart:convert';
+
+
 class WebviewScreen extends StatefulWidget {
   final String appId;
   final String publicKey;
   final String type;
-   final Map<String, dynamic> userData;
-  final Map<String, dynamic> config;
+  final Map<String, dynamic>? userData;
+  final Map<String, dynamic>? config;
   final Function(dynamic) success;
   final Function(dynamic) error;
   const WebviewScreen({
@@ -31,91 +33,82 @@ class _WebviewScreenState extends State<WebviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Dojah Widget"),
-      ),
-      body: InAppWebView(
-        initialData: InAppWebViewInitialData(data: """
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=1"/>
-    <title>Dojah Inc.</title>
-</head>
-<body>
-<script>       
-              const openMediaDevices = async (constraints) => {
-              return await navigator.mediaDevices.getUserMedia(constraints);
-          }
+        appBar: AppBar(
+          title: Text("Dojah Widget"),
+        ),
+        body: InAppWebView(
+          initialData: InAppWebViewInitialData(
+            data: """
+                      <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=1"/>
+                              
 
-          try {
-              const stream = openMediaDevices({'video':true,'audio':true});
-              console.log('Got MediaStream:', stream);
-          } catch(error) {
-              console.error('Error accessing media devices.', error);
-          }
-</script>
-<script src="https://widget.dojah.io/widget.js"></script>
+                            <title>Dojah Inc.</title>
 
+                        </head>
+                        <body>
+                  
+                        <script src="https://widget.dojah.io/widget.js"></script>
+                        <script>
+                                  const options = {
+                                      app_id: "${widget.appId}",
+                                      p_key: "${widget.publicKey}",
+                                      type: "${widget.type}",
+                                      config: ${json.encode(widget.config ?? {})},
+                                      user_data: ${json.encode(widget.userData ?? {})},
+                                      onSuccess: function (response) {
+                                      window.flutter_inappwebview.callHandler('onSuccessCallback', response)
+                                      },
+                                      onError: function (err) {
+                                        window.flutter_inappwebview.callHandler('onErrorCallback', error)
+                                      },
+                                      onClose: function () {
+                                        window.flutter_inappwebview.callHandler('onCloseCallback', 'close')
+                                      }
+                                  }
+                                    const connect = new Connect(options);
+                                    connect.setup();
+                                    connect.open();
+                              </script>
+                        </body>
+                      </html>
+                  """,
+          ),
+          initialOptions: InAppWebViewGroupOptions(
+            crossPlatform: InAppWebViewOptions(),
+          ),
+          onWebViewCreated: (InAppWebViewController controller) {
+            _webViewController = controller;
 
-<script>
-
-        
-          const options = {
-              app_id: "${widget.appId}",
-              p_key: "${widget.publicKey}",
-              type: "${widget.type}",
-              user_data: ${json.encode(widget.userData)},
-              config: ${json.encode(widget.config)},
-             
-         
-              onSuccess: function (response) {
-               window.flutter_inappwebview.callHandler('onSuccessCallback', response)
-              },
-              onError: function (err) {
-                window.flutter_inappwebview.callHandler('onErrorCallback', error)
-              },
-              onClose: function () {
-                window.flutter_inappwebview.callHandler('onCloseCallback', 'close')
-              }
-          }
-            const connect = new Connect(options);
-            connect.setup();
-            connect.open();
-      </script>
-</body>
-</html>
-                  """),
-        initialOptions:
-            InAppWebViewGroupOptions(crossPlatform: InAppWebViewOptions()),
-        onWebViewCreated: (InAppWebViewController controller) {
-          _webViewController = controller;
-
-          _webViewController?.addJavaScriptHandler(
+            _webViewController?.addJavaScriptHandler(
               handlerName: 'onSuccessCallback',
               callback: (response) {
                 widget.success(response);
-              });
+              },
+            );
 
-          _webViewController?.addJavaScriptHandler(
+            _webViewController?.addJavaScriptHandler(
               handlerName: 'onCloseCallback',
               callback: (response) {
                 // widget.onCloseCallback!(response);
                 if (response.first == 'close') {
                   Navigator.pop(context);
                 }
-              });
+              },
+            );
 
-          _webViewController?.addJavaScriptHandler(
+            _webViewController?.addJavaScriptHandler(
               handlerName: 'onErrorCallback',
               callback: (error) {
                 widget.error(error);
-              });
-        },
-        onConsoleMessage: (controller, consoleMessage) {
-          print(consoleMessage.message);
-        },
-      ),
-    );
+              },
+            );
+          },
+          // onConsoleMessage: (controller, consoleMessage) {
+          //   print(consoleMessage.message);
+          // },
+        ));
   }
 }

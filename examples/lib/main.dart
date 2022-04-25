@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dojah_financial/flutter_dojah_financial.dart';
 import 'dart:convert';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:camera/camera.dart';
-// import 'package:logger/logger.dart';
-void main() {
+
+void main() async {
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -16,510 +14,340 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage()
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primarySwatch: Colors.blue,
+        ),
+        home: const HomePage());
   }
 }
 
-
 class HomePage extends StatefulWidget {
-  const HomePage({ Key? key }) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-
 class _HomePageState extends State<HomePage> {
+  bool isGranted = false;
 
-// void _askCameraPermission() async {
-//   if (await Permission.camera.request().isGranted) {
-//     var permissionStatus = await Permission.camera.status;
-//     print(permissionStatus);
-//     // setState(() {});
-//   }
-// }
+  @override
+  void initState() {
+    super.initState();
 
-// var logger = Logger();
+    initPermissions();
+  }
 
-// logger.d("Logger is working!");
+  Future initPermissions() async {
+    if (await Permission.camera.request().isGranted) {
+      setState(() {
+        isGranted = true;
+      });
+    }
+  }
 
-
-
-//  late CameraController controller;
-
-//   XFile? pictureFile;
-
-
-
-  
   DojahFinancial? _dojahFinancial;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Dojah Widget test"),
-      ),
-      body:  Center(child: Column(children: <Widget>[  
-        Container(
-              child: TextButton(  
-                child: Text('Link Widget', style: TextStyle(fontSize: 20.0),),  
-        
-        onPressed: () {
-
-           final userData =  {
-            "first_name": "Chijioke",
-            "last_name": "Nna",
-            "dob": "2022-03-12"
-           };
-          final configObj = {
-
-          "debug": true,
-          "mobile": true,
-   
-          };
-
-          //Use your appId and publicKey
-          _dojahFinancial = DojahFinancial(appId: "6194f5f3c423930034a33f16", 
-          publicKey: "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //   
-          type: "link",  //'verification', 'identification', 'verification', 'liveness'
-          userData: userData,
-          config: configObj,
-          
-          
-          );  //Type can be link, identification, verification
-          _dojahFinancial!.open(context, onSuccess: (result) => 
-          print(result), 
-          // ignore: avoid_print
-          onError: (error) => print("widget Error" + error));
-        }, 
-                    ),  
+        appBar: AppBar(
+          title: const Text("Dojah Widget test"),
+        ),
+        body: Center(
+            child: Column(children: <Widget>[
 
 
-                    
-            ),  
+                 Container(
+            child: TextButton(
+              child: const Text(
+                'Custom Widget',
+                style: TextStyle(fontSize: 20.0),
+              ),
 
-             Container(
-              child: TextButton(  
-                child: Text('Payment Widget', style: TextStyle(fontSize: 20.0),),  
-        
-        onPressed: () {
+              onPressed: () {
+                
+                if (!isGranted) {
 
-          final userData =  {
-            "first_name": "Chijioke",
-            "last_name": "Nna",
-            "dob": "2022-03-12"
-           };
-          final configObj = {
+                  print("Not Granted");
+                  return;
+                }
 
-          "debug": true,
-          "mobile": true,
+                 print("Granted");
 
-        //   "aml": false,
-        //   "review_process": 'Automatic', // Possible values are 'Automatic' and 'Manual'
-        //   "pages": [
-        //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
-        //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
-        //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
-        //     { "page": 'selfie' },
-        //     { "page": 'id', "config": { "passport": false, "dl": true } },
-        // ],
-      
-          };
+                final userData = {
+                  "first_name": "Chijioke",
+                  "last_name": "Nna",
+                  "dob": "2022-03-12"
+                };
 
+                final configObj = {
+                  "debug": true,
+                  "mobile": true,
+                  "otp": true,
+                  "selfie": true,
+                  "aml": false,
+                  "review_process": "Automatic",
+                  "pages": [
+                    // { "page": "government-data", "config": { "bvn": false, "nin": true, "dl": false, "mobile": false, "otp": false, "selfie": false } },
 
-          //Use your appId and publicKey
-          _dojahFinancial = DojahFinancial(appId: "6000604fb87ea60035ef41bb", 
-          publicKey: "prod_pk_7jspvKP2FMkjkSZx1qnbgiMWy", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
-          type: "payment",  //'verification', 'identification', 'verification', 'liveness'
-          userData: userData,
-          config: configObj,
-          // amount: 100,
-          
-          );  //Type can be link, identification, verification
-          _dojahFinancial!.open(context, onSuccess: (result) => 
-          print(result), 
-          onError: (error) => print(error));
-        }, 
-         ),
-          ),
-            
-            Container(
-              child: TextButton(  
-                child: Text('Identification Widget', style: TextStyle(fontSize: 20.0),),  
-        
-        onPressed: () {
+                    {"page": "selfie"},
+                    {
+                      "page": "id",
+                      "config": {"passport": false, "dl": true}
+                    }
+                  ]
+                };
 
-          final userData =  {
-            "first_name": "Chijioke",
-            "last_name": "Nna",
-            "dob": "2022-03-12"
-           };
-          final configObj = {
+                //Use your appId and publicKey
+                _dojahFinancial = DojahFinancial(
+                  appId: "6000604fb87ea60035ef41bb",
+                  publicKey:
+                      "prod_pk_7jspvKP2FMkjkSZx1qnbgiMWy", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
+                  type:
+                      "custom", //'verification', 'identification', 'verification', 'liveness'
+                  userData: userData,
+                  config: configObj,
+                );
+                //Type can be link, identification, verification
 
-          "debug": true,
-          "mobile": true,
-          "otp": true,
-          "selfie": true,
-          "aml": false,
-          "review_process": 'Automatic', // Possible values are 'Automatic' and 'Manual'
-        //   "pages": [
-        //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
-        //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
-        //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
-        //     { "page": 'selfie' },
-        //     { "page": 'id', "config": { "passport": false, "dl": true },},
-        //     { "page": 'user-data', "first_name": 'Chijioke', "last_name": 'Nna', "dob": '2022-03-12',}
-          
-        // ],
-      
-          };
+                print(json.encode(configObj));
+                print(json.encode(configObj));
+                print(userData);
+                print(configObj);
+                _dojahFinancial!.open(context,
+                    onSuccess: (result) => print(result),
+                    onError: (error) => print(error));
+              },
 
-          //Use your appId and publicKey
-         _dojahFinancial = DojahFinancial(appId: "6194f5f3c423930034a33f16", 
-          publicKey: "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
-          type: "identification",  //'verification', 'identification', 'verification', 'liveness'
-          userData: userData,
-          config: configObj,
-          
-          );  //Type can be link, identification, verification
-          _dojahFinancial!.open(context, onSuccess: (result) => 
-          print(result), 
-          onError: (error) => print(error));
-        }, 
-         ),
-          ),
-
-          Container(
-              child: TextButton(  
-                child: Text('Verification Widget', style: TextStyle(fontSize: 20.0),),  
-        
-        onPressed: () {
-
-          final userData =  {
-            "first_name": "Chijioke",
-            "last_name": "Nna",
-            "dob": "2022-03-12"
-           };
-          final configObj = {
-
-          "debug": true,
-          "mobile": true,
-          "otp": true,
-          "selfie": true,
-        //   "aml": false,
-        //   "review_process": 'Automatic', // Possible values are 'Automatic' and 'Manual'
-        //   "pages": [
-        //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
-        //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
-        //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
-        //     { "page": 'selfie' },
-        //     { "page": 'id', "config": { "passport": false, "dl": true } },
-        // ],
-      
-          };
-
-          //Use your appId and publicKey
-          _dojahFinancial = DojahFinancial(appId: "6194f5f3c423930034a33f16", 
-          publicKey: "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
-          type: "verification",  //'verification', 'identification', 'verification', 'liveness'
-          userData: userData,
-          config: configObj,
-          
-          );  //Type can be link, identification, verification
-          _dojahFinancial!.open(context, onSuccess: (result) => 
-          print(result), 
-          onError: (error) => print(error));
-        }, 
-         ),
+             
+            ),
           ),
           Container(
-              child: TextButton(  
-                child: Text('Liveness Widget', style: TextStyle(fontSize: 20.0),),  
-        
-        onPressed: () async{
+            child: TextButton(
+              child: const Text(
+                'Link Widget',
+                style: TextStyle(fontSize: 20.0),
+              ),
+              onPressed: () {
+                final userData = {
+                  "first_name": "Chijioke",
+                  "last_name": "Nna",
+                  "dob": "2022-03-12"
+                };
+                final configObj = {
+                  "debug": true,
+                  "mobile": true,
+                };
 
-          final userData =  {
-            "first_name": "Chijioke",
-            "last_name": "Nna",
-            "dob": "2022-03-12"
-           };
-          final configObj = {
+                //Use your appId and publicKey
+                _dojahFinancial = DojahFinancial(
+                  appId: "6194f5f3c423930034a33f16",
+                  publicKey: "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //
+                  type:
+                      "link", //'verification', 'identification', 'verification', 'liveness'
+                  userData: userData,
+                  config: configObj,
+                ); //Type can be link, identification, verification
+                _dojahFinancial!.open(context,
+                    onSuccess: (result) => print(result),
+                    // ignore: avoid_print
+                    onError: (error) => print("widget Error" + error));
+              },
+            ),
+          ),
+          Container(
+            child: TextButton(
+              child: const Text(
+                'Payment Widget',
+                style: TextStyle(fontSize: 20.0),
+              ),
+              onPressed: () {
+                final userData = {
+                  "first_name": "Chijioke",
+                  "last_name": "Nna",
+                  "dob": "2022-03-12"
+                };
+                final configObj = {
+                  "debug": true,
+                  "mobile": true,
 
-          "debug": true,
-          "mobile": true,
-        //   "aml": false,
-        //   "review_process": 'Automatic', // Possible values are 'Automatic' and 'Manual'
-        //   "pages": [
-        //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
-        //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
-        //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
-        //     { "page": 'selfie' },
-        //     { "page": 'id', "config": { "passport": false, "dl": true } },
-        // ],
-      
-          };
+                  //   "aml": false,
+                  //   "review_process": 'Automatic', // Possible values are 'Automatic' and 'Manual'
+                  //   "pages": [
+                  //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
+                  //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
+                  //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
+                  //     { "page": 'selfie' },
+                  //     { "page": 'id', "config": { "passport": false, "dl": true } },
+                  // ],
+                };
+
+                //Use your appId and publicKey
+                _dojahFinancial = DojahFinancial(
+                  appId: "6000604fb87ea60035ef41bb",
+                  publicKey:
+                      "prod_pk_7jspvKP2FMkjkSZx1qnbgiMWy", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
+                  type:
+                      "payment", //'verification', 'identification', 'verification', 'liveness'
+                  userData: userData,
+                  config: configObj,
+                  // amount: 100,
+                ); //Type can be link, identification, verification
+                _dojahFinancial!.open(context,
+                    onSuccess: (result) => print(result),
+                    onError: (error) => print(error));
+              },
+            ),
+          ),
+          Container(
+            child: TextButton(
+              child: const Text(
+                'Identification Widget',
+                style: TextStyle(fontSize: 20.0),
+              ),
+              onPressed: () {
+                final userData = {
+                  "first_name": "Chijioke",
+                  "last_name": "Nna",
+                  "dob": "2022-03-12"
+                };
+                final configObj = {
+                  "debug": true,
+                  "mobile": true,
+                  "otp": true,
+                  "selfie": true,
+                  "aml": false,
+                  "review_process":
+                      'Automatic', // Possible values are 'Automatic' and 'Manual'
+                  //   "pages": [
+                  //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
+                  //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
+                  //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
+                  //     { "page": 'selfie' },
+                  //     { "page": 'id', "config": { "passport": false, "dl": true },},
+                  //     { "page": 'user-data', "first_name": 'Chijioke', "last_name": 'Nna', "dob": '2022-03-12',}
+
+                  // ],
+                };
+
+                //Use your appId and publicKey
+                _dojahFinancial = DojahFinancial(
+                  appId: "6194f5f3c423930034a33f16",
+                  publicKey:
+                      "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
+                  type:
+                      "identification", //'verification', 'identification', 'verification', 'liveness'
+                  userData: userData,
+                  config: configObj,
+                ); //Type can be link, identification, verification
+                _dojahFinancial!.open(context,
+                    onSuccess: (result) => print(result),
+                    onError: (error) => print(error));
+              },
+            ),
+          ),
+          Container(
+            child: TextButton(
+              child: const Text(
+                'Verification Widget',
+                style: TextStyle(fontSize: 20.0),
+              ),
+              onPressed: () {
+                final userData = {
+                  "first_name": "Chijioke",
+                  "last_name": "Nna",
+                  "dob": "2022-03-12"
+                };
+                final configObj = {
+                  "debug": true,
+                  "mobile": true,
+                  "otp": true,
+                  "selfie": true,
+                  //   "aml": false,
+                  //   "review_process": 'Automatic', // Possible values are 'Automatic' and 'Manual'
+                  //   "pages": [
+                  //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
+                  //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
+                  //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
+                  //     { "page": 'selfie' },
+                  //     { "page": 'id', "config": { "passport": false, "dl": true } },
+                  // ],
+                };
+
+                //Use your appId and publicKey
+                _dojahFinancial = DojahFinancial(
+                  appId: "6194f5f3c423930034a33f16",
+                  publicKey:
+                      "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
+                  type:
+                      "verification", //'verification', 'identification', 'verification', 'liveness'
+                  userData: userData,
+                  config: configObj,
+                ); //Type can be link, identification, verification
+                _dojahFinancial!.open(context,
+                    onSuccess: (result) => print(result),
+                    onError: (error) => print(error));
+              },
+            ),
+          ),
+          Container(
+            child: TextButton(
+              child: const Text(
+                'Liveness Widget',
+                style: TextStyle(fontSize: 20.0),
+              ),
+              onPressed: () async {
+                final userData = {
+                  "first_name": "Chijioke",
+                  "last_name": "Nna",
+                  "dob": "2022-03-12"
+                };
+                final configObj = {
+                  "debug": true,
+                  "mobile": true,
+                  //   "aml": false,
+                  //   "review_process": 'Automatic', // Possible values are 'Automatic' and 'Manual'
+                  //   "pages": [
+                  //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
+                  //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
+                  //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
+                  //     { "page": 'selfie' },
+                  //     { "page": 'id', "config": { "passport": false, "dl": true } },
+                  // ],
+                };
 
 //             var status = await Permission.camera.status;
 //             if (status.isDenied) {
 //   // We didn't ask for permission yet or the permission has been denied before but not permanently.
 // }
-          //Use your appId and publicKey
-          _dojahFinancial = DojahFinancial(appId: "6194f5f3c423930034a33f16", 
-          publicKey: "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
-          type: "liveness",  //'verification', 'identification', 'verification', 'liveness'
-          userData: userData,
-          config: configObj,
-          
-          );  //Type can be link, identification, verification
-          _dojahFinancial!.open(context, onSuccess: (result) => 
-          print(result), 
-          onError: (error) => print(error));
-        }, 
-         ),
+                //Use your appId and publicKey
+                _dojahFinancial = DojahFinancial(
+                  appId: "6194f5f3c423930034a33f16",
+                  publicKey:
+                      "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
+                  type:
+                      "liveness", //'verification', 'identification', 'verification', 'liveness'
+                  userData: userData,
+                  config: configObj,
+                ); //Type can be link, identification, verification
+                _dojahFinancial!.open(context,
+                    onSuccess: (result) => print(result),
+                    onError: (error) => print(error));
+              },
+            ),
           ),
-          
-          
-          
-          Container(
-              child: TextButton(  
-                child: Text('Custom Widget', style: TextStyle(fontSize: 20.0),),  
-        
-        onPressed: () async{
-
-
-        // @override
-        //   void initState() {
-        //     super.initState();
-          
-        //     controller.initialize().then((_) {
-        //       if (!mounted) {
-        //         return;
-        //       }
-        //       setState(() {});
-        //     });
-        //   }
-
-        //   @override
-        //   void dispose() {
-        //     controller.dispose();
-        //     super.dispose();
-        //   }
-
-              
-
-        //           pictureFile = await controller.takePicture();
-
-
-                void _askCameraPermission() async {
-                    final requestCam = await Permission.camera.request();
-
-                    print(requestCam);
-                      
-
-                      //  final requestMic = await Permission.microphone.request();
-
-                    // print(requestMic);
-
-                    //  cameras = await availableCameras();
-                    //  runApp(CameraApp());
-                      ///// await openAppSettings();
-
-                 
-                      if (await Permission.camera.request().isGranted) {
-                      
-                        final permissionStatus = await Permission.camera.status;
-
-
-                        final permissionStatusMic = await Permission.microphone.status;
-
-
-                        if (permissionStatus == 'undetermined' || permissionStatus == 'denied' || permissionStatus == 'restricted' || permissionStatus == 'permanentlyDenied') {
-
-                        final requestCam = await Permission.camera.request();
-                            // await openAppSettings();
-
-                        }
-
-                        //  if (permissionStatusMic == 'undetermined' || permissionStatusMic == 'denied' || permissionStatusMic == 'restricted' || permissionStatusMic == 'permanentlyDenied') {
-
-                        //     await openAppSettings();
-
-                        // }
-
-                     
-
-                        // setState(() {});
-                      }
-
-                }
-                       print("permissionStatus");
-                      _askCameraPermission();
-                    
-
-
-                    
-                              final userData = {
-                                "first_name": "Chijioke",
-                                "last_name": "Nna",
-                                "dob": "2022-03-12"
-                              };
-
-
-                              final configObj = {
-
-                                      "debug": true,
-                                      "mobile": true,
-                                      "otp": true,
-                                      "selfie": true,
-                                      "aml": false,
-                                      "review_process": "Automatic", 
-                                      "pages": [
-                                        // { "page": "government-data", "config": { "bvn": false, "nin": true, "dl": false, "mobile": false, "otp": false, "selfie": false } },
-                                      
-                                        { "page": "selfie" },
-                                        { "page": "id", "config": { "passport": false, "dl": true }}
-                                      
-                                      
-                                    ]
-                            
-                              };
-
-                                
-
-                                //Use your appId and publicKey
-                              _dojahFinancial = DojahFinancial(appId: "6000604fb87ea60035ef41bb", 
-                                publicKey: "prod_pk_7jspvKP2FMkjkSZx1qnbgiMWy", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
-                                type: "custom",  //'verification', 'identification', 'verification', 'liveness'
-                                userData: userData,
-                                config: configObj,
-                                
-                                );  
-                                //Type can be link, identification, verification
-                          
-                              
-                                print(json.encode(configObj));
-                                print(json.encode(configObj));
-                                print(userData);
-                                print(configObj);
-                                _dojahFinancial!.open(context, onSuccess: (result) => 
-                                print(result), 
-                                onError: (error) => print(error));
-                              },
-                                            
-                                            
-
-                              // setState(() {});
-                                          
-  
-
-        
-                              
-                        
-         ),
-          ),
-           ]  
-         ))  
-      );  
- 
-  }  
-}     
-
-      
-// import 'package:camera/camera.dart';
-// import 'package:flutter/material.dart';
-
-// class CameraPage extends StatefulWidget {
-//   final List<CameraDescription>? cameras;
-//   const CameraPage({this.cameras, Key? key}) : super(key: key);
-
-//   @override
-//   _CameraPageState createState() => _CameraPageState();
-// }
-
-// class _CameraPageState extends State<CameraPage> {
-//   late CameraController controller;
-//   XFile? pictureFile;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     controller = CameraController(
-//       widget.cameras![0],
-//       ResolutionPreset.max,
-//     );
-//     controller.initialize().then((_) {
-//       if (!mounted) {
-//         return;
-//       }
-//       setState(() {});
-//     });
-//   }
-
-//   @override
-//   void dispose() {
-//     controller.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     if (!controller.value.isInitialized) {
-//       return const SizedBox(
-//         child: Center(
-//           child: CircularProgressIndicator(),
-//         ),
-//       );
-//     }
-//     return Column(
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: Center(
-//             child: SizedBox(
-//               height: 400,
-//               width: 400,
-//               child: CameraPreview(controller),
-//             ),
-//           ),
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: ElevatedButton(
-//             onPressed: () async {
-//               pictureFile = await controller.takePicture();
-//               setState(() {});
-//             },
-//             child: const Text('Capture Image'),
-//           ),
-//         ),
-//         if (pictureFile != null)
-//           Image.network(
-//             pictureFile!.path,
-//             height: 200,
-//           )
-//           //Android/iOS
-//           // Image.file(File(pictureFile!.path)))
-//       ],
-//     );
-//   }
-// }
-
-
-      
-
-  
+       
+        ])));
+  }
+}
