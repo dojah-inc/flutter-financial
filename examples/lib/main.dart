@@ -56,7 +56,8 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  DojahFinancial? _dojahFinancial;
+final appId= "6000604fb87ea60035ef41bb";
+final publicKey = "";
 
   @override
   Widget build(BuildContext context) {
@@ -109,23 +110,25 @@ class _HomePageState extends State<HomePage> {
                   ]
                 };
 
+
+                DojahFinancial? _dojahFinancial;
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
-                  appId: "6000604fb87ea60035ef41bb",
+                  appId: appId,
                   publicKey:
-                      "prod_pk_7jspvKP2FMkjkSZx1qnbgiMWy", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
+                     publicKey,    
                   type:
-                      "custom", //'verification', 'identification', 'verification', 'liveness'
+                      "custom", 
                   userData: userData,
                   config: configObj,
                 );
-                //Type can be link, identification, verification
+                //Type is custom
 
                 print(json.encode(configObj));
                 print(json.encode(configObj));
                 print(userData);
                 print(configObj);
-                _dojahFinancial!.open(context,
+                _dojahFinancial.open(context,
                     onSuccess: (result) => print(result),
                     onError: (error) => print(error));
               },
@@ -149,17 +152,19 @@ class _HomePageState extends State<HomePage> {
                   "debug": true,
                   "mobile": true,
                 };
+                DojahFinancial? _dojahFinancial;
 
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
-                  appId: "6194f5f3c423930034a33f16",
-                  publicKey: "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //
+                 appId: appId,
+                  publicKey:
+                     publicKey, 
                   type:
                       "link", //'verification', 'identification', 'verification', 'liveness'
                   userData: userData,
                   config: configObj,
                 ); //Type can be link, identification, verification
-                _dojahFinancial!.open(context,
+                _dojahFinancial.open(context,
                     onSuccess: (result) => print(result),
                     // ignore: avoid_print
                     onError: (error) => print("widget Error" + error));
@@ -182,29 +187,22 @@ class _HomePageState extends State<HomePage> {
                   "debug": true,
                   "mobile": true,
 
-                  //   "aml": false,
-                  //   "review_process": 'Automatic', // Possible values are 'Automatic' and 'Manual'
-                  //   "pages": [
-                  //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
-                  //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
-                  //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
-                  //     { "page": 'selfie' },
-                  //     { "page": 'id', "config": { "passport": false, "dl": true } },
-                  // ],
                 };
 
+                DojahFinancial? _dojahFinancial;
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
-                  appId: "6000604fb87ea60035ef41bb",
+                  appId: appId,
                   publicKey:
-                      "prod_pk_7jspvKP2FMkjkSZx1qnbgiMWy", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
+                     publicKey, 
+
                   type:
                       "payment", //'verification', 'identification', 'verification', 'liveness'
                   userData: userData,
                   config: configObj,
-                  // amount: 100,
+                  amount: 100,
                 ); //Type can be link, identification, verification
-                _dojahFinancial!.open(context,
+                _dojahFinancial.open(context,
                     onSuccess: (result) => print(result),
                     onError: (error) => print(error));
               },
@@ -230,28 +228,21 @@ class _HomePageState extends State<HomePage> {
                   "aml": false,
                   "review_process":
                       'Automatic', // Possible values are 'Automatic' and 'Manual'
-                  //   "pages": [
-                  //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
-                  //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
-                  //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
-                  //     { "page": 'selfie' },
-                  //     { "page": 'id', "config": { "passport": false, "dl": true },},
-                  //     { "page": 'user-data', "first_name": 'Chijioke', "last_name": 'Nna', "dob": '2022-03-12',}
-
-                  // ],
+             
                 };
 
+                 DojahFinancial? _dojahFinancial;
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
-                  appId: "6194f5f3c423930034a33f16",
+                   appId: appId,
                   publicKey:
-                      "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
+                     publicKey, 
                   type:
                       "identification", //'verification', 'identification', 'verification', 'liveness'
                   userData: userData,
                   config: configObj,
                 ); //Type can be link, identification, verification
-                _dojahFinancial!.open(context,
+                _dojahFinancial.open(context,
                     onSuccess: (result) => print(result),
                     onError: (error) => print(error));
               },
@@ -274,28 +265,21 @@ class _HomePageState extends State<HomePage> {
                   "mobile": true,
                   "otp": true,
                   "selfie": true,
-                  //   "aml": false,
-                  //   "review_process": 'Automatic', // Possible values are 'Automatic' and 'Manual'
-                  //   "pages": [
-                  //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
-                  //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
-                  //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
-                  //     { "page": 'selfie' },
-                  //     { "page": 'id', "config": { "passport": false, "dl": true } },
-                  // ],
+             
                 };
 
+                 DojahFinancial? _dojahFinancial;
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
-                  appId: "6194f5f3c423930034a33f16",
+                  appId: appId,
                   publicKey:
-                      "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
+                     publicKey, 
                   type:
                       "verification", //'verification', 'identification', 'verification', 'liveness'
                   userData: userData,
                   config: configObj,
                 ); //Type can be link, identification, verification
-                _dojahFinancial!.open(context,
+                _dojahFinancial.open(context,
                     onSuccess: (result) => print(result),
                     onError: (error) => print(error));
               },
@@ -316,32 +300,26 @@ class _HomePageState extends State<HomePage> {
                 final configObj = {
                   "debug": true,
                   "mobile": true,
-                  //   "aml": false,
-                  //   "review_process": 'Automatic', // Possible values are 'Automatic' and 'Manual'
-                  //   "pages": [
-                  //     { "page": 'government-data', "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
-                  //     { "page": 'government-data', "config": { "bvn": false, "nin": true, "dl": true, "mobile": false, "otp": false, "selfie": false } },
-                  //     { "page": 'government-data', "config": { "bvn": false, "nin": false, "dl": false, "mobile": true, "otp": true, "selfie": false } },
-                  //     { "page": 'selfie' },
-                  //     { "page": 'id', "config": { "passport": false, "dl": true } },
-                  // ],
+               
                 };
 
 //             var status = await Permission.camera.status;
 //             if (status.isDenied) {
 //   // We didn't ask for permission yet or the permission has been denied before but not permanently.
 // }
+                DojahFinancial? _dojahFinancial;
+
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
-                  appId: "6194f5f3c423930034a33f16",
+                  appId: appId,
                   publicKey:
-                      "prod_pk_GB4WvY5xhNx2JlksqBu9Cd0SI", //   test_sk_s3cCLitgcxnPU3UQC8vXum7mA
+                     publicKey, 
                   type:
                       "liveness", //'verification', 'identification', 'verification', 'liveness'
                   userData: userData,
                   config: configObj,
                 ); //Type can be link, identification, verification
-                _dojahFinancial!.open(context,
+                _dojahFinancial.open(context,
                     onSuccess: (result) => print(result),
                     onError: (error) => print(error));
               },
@@ -351,3 +329,5 @@ class _HomePageState extends State<HomePage> {
         ])));
   }
 }
+
+

@@ -1,12 +1,14 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'dart:convert';
-
+import 'package:permission_handler/permission_handler.dart';
 
 class WebviewScreen extends StatefulWidget {
   final String appId;
   final String publicKey;
   final String type;
+  final int? amount;
   final Map<String, dynamic>? userData;
   final Map<String, dynamic>? config;
   final Function(dynamic) success;
@@ -18,7 +20,7 @@ class WebviewScreen extends StatefulWidget {
     required this.type,
     required this.userData,
     required this.config,
-    // required this.amount,
+    this.amount,
     required this.success,
     required this.error,
   }) : super(key: key);
@@ -29,6 +31,35 @@ class WebviewScreen extends StatefulWidget {
 
 class _WebviewScreenState extends State<WebviewScreen> {
   InAppWebViewController? _webViewController;
+  
+  InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
+    crossPlatform: InAppWebViewOptions(
+        useShouldOverrideUrlLoading: true,
+        mediaPlaybackRequiresUserGesture: false),
+    android: AndroidInAppWebViewOptions(
+      useHybridComposition: true,
+    ),
+    ios: IOSInAppWebViewOptions(
+      allowsInlineMediaPlayback: true,
+    ),
+  );
+
+  bool isGranted = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    initPermissions();
+  }
+
+  Future initPermissions() async {
+    if (await Permission.camera.request().isGranted) {
+      setState(() {
+        isGranted = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +67,18 @@ class _WebviewScreenState extends State<WebviewScreen> {
         appBar: AppBar(
           title: Text("Dojah Widget"),
         ),
-        body: InAppWebView(
+
+        
+        body: isGranted
+        
+        
+        ? InAppWebView(
+       
+   
           initialData: InAppWebViewInitialData(
+            baseUrl:  Uri.parse("https://demo.widget.dojah.io/example.html"),
+            androidHistoryUrl :  Uri.parse("https://demo.widget.dojah.io/example.html"),
+            mimeType: "text/html",
             data: """
                       <html lang="en">
                         <head>
@@ -58,6 +99,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                       type: "${widget.type}",
                                       config: ${json.encode(widget.config ?? {})},
                                       user_data: ${json.encode(widget.userData ?? {})},
+                                      amount: ${widget.amount},
                                       onSuccess: function (response) {
                                       window.flutter_inappwebview.callHandler('onSuccessCallback', response)
                                       },
@@ -76,39 +118,24 @@ class _WebviewScreenState extends State<WebviewScreen> {
                       </html>
                   """,
           ),
-          initialOptions: InAppWebViewGroupOptions(
-            crossPlatform: InAppWebViewOptions(),
-          ),
-          onWebViewCreated: (InAppWebViewController controller) {
-            _webViewController = controller;
 
-            _webViewController?.addJavaScriptHandler(
-              handlerName: 'onSuccessCallback',
-              callback: (response) {
-                widget.success(response);
-              },
-            );
+           initialUrlRequest: URLRequest(
+           url: Uri.parse("https://demo.widget.dojah.io/example.html")
+       ),
 
-            _webViewController?.addJavaScriptHandler(
-              handlerName: 'onCloseCallback',
-              callback: (response) {
-                // widget.onCloseCallback!(response);
-                if (response.first == 'close') {
-                  Navigator.pop(context);
-                }
+          initialOptions: options,
+              onWebViewCreated: (controller) {
+                _webViewController = controller;
               },
-            );
-
-            _webViewController?.addJavaScriptHandler(
-              handlerName: 'onErrorCallback',
-              callback: (error) {
-                widget.error(error);
+              androidOnPermissionRequest:
+                  (controller, origin, resources) async {
+                return PermissionRequestResponse(
+                    resources: resources,
+                    action: PermissionRequestResponseAction.GRANT);
               },
-            );
-          },
-          // onConsoleMessage: (controller, consoleMessage) {
-          //   print(consoleMessage.message);
-          // },
-        ));
+            )
+          : const Center(child: CircularProgressIndicator()),
+    );
   }
+
 }
