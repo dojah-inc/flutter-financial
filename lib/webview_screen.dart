@@ -10,6 +10,7 @@ class WebviewScreen extends StatefulWidget {
   final String type;
   final int? amount;
   final Map<String, dynamic>? userData;
+  final Map<String, dynamic>? metaData;
   final Map<String, dynamic>? config;
   final Function(dynamic) success;
   final Function(dynamic) error;
@@ -19,6 +20,7 @@ class WebviewScreen extends StatefulWidget {
     required this.publicKey,
     required this.type,
     required this.userData,
+    this.metaData,
     required this.config,
     this.amount,
     required this.success,
@@ -97,6 +99,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                       type: "${widget.type}",
                                       config: ${json.encode(widget.config ?? {})},
                                       user_data: ${json.encode(widget.userData ?? {})},
+                                      metadata: ${json.encode(widget.metaData ?? {})},
                                       amount: ${widget.amount},
                                       onSuccess: function (response) {
                                       window.flutter_inappwebview.callHandler('onSuccessCallback', response)

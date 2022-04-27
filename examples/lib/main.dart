@@ -87,10 +87,13 @@ final publicKey = ""; //your public key
                  print("Granted");
 
                 final userData = {
-                  "first_name": "Chijioke",
-                  "last_name": "Nna",
-                  "dob": "2022-03-12"
+                  "first_name": "Michael",
+                  "last_name": "Folayan",
+                  "dob": "1998-05-16"
                 };
+
+
+
 
                 final configObj = {
                   "debug": true,
@@ -100,16 +103,21 @@ final publicKey = ""; //your public key
                   "aml": false,
                   "review_process": "Automatic",
                   "pages": [
-                    // { "page": "government-data", "config": { "bvn": false, "nin": true, "dl": false, "mobile": false, "otp": false, "selfie": false } },
+                    { "page": "government-data", "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
 
                     {"page": "selfie"},
-                    {
-                      "page": "id",
-                      "config": {"passport": false, "dl": true}
-                    }
+                    // {
+                    //   "page": "id",
+                    //   "config": {"passport": false, "dl": true}
+                    // }
                   ]
                 };
 
+
+                final metaData = {
+                  "user_id": "81828289191919193882",
+                  
+                };
 
                 DojahFinancial? _dojahFinancial;
                 //Use your appId and publicKey
@@ -120,6 +128,7 @@ final publicKey = ""; //your public key
                   type:
                       "custom", 
                   userData: userData,
+                  metaData: metaData,
                   config: configObj,
                 );
                 //Type is custom

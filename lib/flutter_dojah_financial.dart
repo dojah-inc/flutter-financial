@@ -13,6 +13,7 @@ class DojahFinancial {
   final String type;
   final int? amount;
   final Map<String, dynamic>? userData;
+  final Map<String, dynamic>? metaData;
   final Map<String, dynamic>? config;
   final Function(dynamic)? onCloseCallback;
   // final Function(String)? amount;
@@ -24,6 +25,7 @@ class DojahFinancial {
     required this.type,
     required this.userData,
     required this.config,
+    this.metaData,
     this.amount,
     this.onCloseCallback,
   });
@@ -39,6 +41,7 @@ class DojahFinancial {
           publicKey: publicKey,
           type: type,
           userData: userData,
+          metaData: metaData,
           config: config,
           amount: amount,
           success: (result) {
