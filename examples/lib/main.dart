@@ -56,8 +56,8 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-final appId= ""; //your application ID
-final publicKey = ""; //your public key
+final appId= "xxxxxxxxxxxxx"; //your application ID
+final publicKey = "xxxxxxxxxxxxxx"; //your public key
 
   @override
   Widget build(BuildContext context) {
