@@ -3,10 +3,15 @@ library flutter_dojah_financial;
 import 'package:flutter/material.dart';
 import 'package:flutter_dojah_financial/webview_screen.dart';
 
+
+
+
+
 class DojahFinancial {
   final String appId;
   final String publicKey;
   final String type;
+  final int? amount;
   final Map<String, dynamic>? userData;
   final Map<String, dynamic>? config;
   final Function(dynamic)? onCloseCallback;
@@ -19,7 +24,7 @@ class DojahFinancial {
     required this.type,
     required this.userData,
     required this.config,
-    // this.amount,
+    this.amount,
     this.onCloseCallback,
   });
 
@@ -35,7 +40,7 @@ class DojahFinancial {
           type: type,
           userData: userData,
           config: config,
-          // amount: amount,
+          amount: amount,
           success: (result) {
             onSuccess!(result);
           },
