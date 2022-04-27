@@ -124,6 +124,31 @@ class _WebviewScreenState extends State<WebviewScreen> {
           initialOptions: options,
               onWebViewCreated: (controller) {
                 _webViewController = controller;
+
+
+                 _webViewController?.addJavaScriptHandler(
+                  handlerName: 'onSuccessCallback',
+                  callback: (response) {
+                    widget.success(response);
+                  },
+                );
+
+                _webViewController?.addJavaScriptHandler(
+                  handlerName: 'onCloseCallback',
+                  callback: (response) {
+                    // widget.onCloseCallback!(response);
+                    if (response.first == 'close') {
+                      Navigator.pop(context);
+                    }
+                  },
+                );
+
+                _webViewController?.addJavaScriptHandler(
+                  handlerName: 'onErrorCallback',
+                  callback: (error) {
+                    widget.error(error);
+                  },
+                );
               },
               androidOnPermissionRequest:
                   (controller, origin, resources) async {
@@ -131,9 +156,15 @@ class _WebviewScreenState extends State<WebviewScreen> {
                     resources: resources,
                     action: PermissionRequestResponseAction.GRANT);
               },
+
+               
+              
             )
           : const Center(child: CircularProgressIndicator()),
     );
   }
 
 }
+
+
+
