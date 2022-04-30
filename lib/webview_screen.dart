@@ -36,6 +36,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
   
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
     crossPlatform: InAppWebViewOptions(
+        clearCache: true,
         useShouldOverrideUrlLoading: true,
         mediaPlaybackRequiresUserGesture: false),
     android: AndroidInAppWebViewOptions(
@@ -123,6 +124,8 @@ class _WebviewScreenState extends State<WebviewScreen> {
            initialUrlRequest: URLRequest(
            url: Uri.parse("https://widget.dojah.io")
        ),
+
+     
 
           initialOptions: options,
               onWebViewCreated: (controller) {
