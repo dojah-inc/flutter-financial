@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'dart:convert';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart'
+    hide PermissionStatus;
+import 'package:location/location.dart';
 
 class WebviewScreen extends StatefulWidget {
   final String appId;
@@ -33,7 +35,7 @@ class WebviewScreen extends StatefulWidget {
 
 class _WebviewScreenState extends State<WebviewScreen> {
   InAppWebViewController? _webViewController;
-  
+
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
     crossPlatform: InAppWebViewOptions(
         clearCache: true,
@@ -48,15 +50,22 @@ class _WebviewScreenState extends State<WebviewScreen> {
   );
 
   bool isGranted = false;
+  bool isLocationGranted = false;
+  dynamic locationData;
+  dynamic timeZone;
+  dynamic zoneOffset;
+  dynamic locationObject;
 
   @override
   void initState() {
     super.initState();
 
     initPermissions();
+    initLocationPermissions();
   }
 
   Future initPermissions() async {
+    await Permission.locationWhenInUse.request();
     if (await Permission.camera.request().isGranted) {
       setState(() {
         isGranted = true;
@@ -64,25 +73,85 @@ class _WebviewScreenState extends State<WebviewScreen> {
     }
   }
 
+  Future initLocationPermissions() async {
+    bool _serviceEnabled;
+
+    Location location = Location();
+
+    LocationData _locationData;
+
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _locationData = await location.getLocation();
+
+    final latitude = _locationData.latitude;
+
+    final longitude = _locationData.longitude;
+
+    DateTime dateTime = DateTime.now();
+
+    final timeZoneName = dateTime.timeZoneName;
+    final timeZoneOffset = dateTime.timeZoneOffset;
+
+    final _locationObject = {
+      "lat": latitude,
+      "long": longitude,
+      "timezone": timeZoneName,
+      //"timezoneOffset" : timeZoneOffset,
+    };
+
+    // print("After Location data");
+    // print(dateTime.timeZoneName);
+
+    // print(latitude);
+    // print(longitude);
+    // print(dateTime.timeZoneOffset);
+
+    //  print(_locationData);
+
+    // print(json.encode(locationObject));
+
+    if (await Permission.locationWhenInUse.request().isGranted) {
+      setState(() {
+        isLocationGranted = true;
+        locationData = _locationData;
+        timeZone = timeZoneName;
+        zoneOffset = timeZoneOffset;
+        locationObject = _locationObject;
+      });
+    }
+  }
+  // returns an object with the following keys - latitude, longitude, and timezone
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Dojah Widget"),
-        ),
-
-        
-        body: isGranted
-        
-        
-        ? InAppWebView(
-       
-   
-          initialData: InAppWebViewInitialData(
-            baseUrl:  Uri.parse("https://widget.dojah.io"),
-            androidHistoryUrl :  Uri.parse("https://widget.dojah.io"),
-            mimeType: "text/html",
-            data: """
+      appBar: AppBar(
+        title: const Text("Dojah Widget"),
+      ),
+      body: isGranted
+          ? InAppWebView(
+              initialData: InAppWebViewInitialData(
+                baseUrl: Uri.parse("https://widget.dojah.io"),
+                androidHistoryUrl: Uri.parse("https://widget.dojah.io"),
+                mimeType: "text/html",
+                data: """
                       <html lang="en">
                         <head>
                             <meta charset="UTF-8">
@@ -101,6 +170,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                       config: ${json.encode(widget.config ?? {})},
                                       user_data: ${json.encode(widget.userData ?? {})},
                                       metadata: ${json.encode(widget.metaData ?? {})},
+                                      _getLocation: ${json.encode(locationObject ?? {})},
                                       amount: ${widget.amount},
                                       onSuccess: function (response) {
                                       window.flutter_inappwebview.callHandler('onSuccessCallback', response)
@@ -119,20 +189,14 @@ class _WebviewScreenState extends State<WebviewScreen> {
                         </body>
                       </html>
                   """,
-          ),
-
-           initialUrlRequest: URLRequest(
-           url: Uri.parse("https://widget.dojah.io")
-       ),
-
-     
-
-          initialOptions: options,
+              ),
+              initialUrlRequest:
+                  URLRequest(url: Uri.parse("https://widget.dojah.io")),
+              initialOptions: options,
               onWebViewCreated: (controller) {
                 _webViewController = controller;
 
-
-                 _webViewController?.addJavaScriptHandler(
+                _webViewController?.addJavaScriptHandler(
                   handlerName: 'onSuccessCallback',
                   callback: (response) {
                     widget.success(response);
@@ -142,10 +206,10 @@ class _WebviewScreenState extends State<WebviewScreen> {
                 _webViewController?.addJavaScriptHandler(
                   handlerName: 'onCloseCallback',
                   callback: (response) {
-                    // widget.onCloseCallback!(response);
-                    if (response.first == 'close') {
-                      Navigator.pop(context);
-                    }
+                    //widget.onCloseCallback!(response);
+                    // if (response.first == 'close') {
+                    //   Navigator.pop(context);
+                    // }
                   },
                 );
 
@@ -162,15 +226,12 @@ class _WebviewScreenState extends State<WebviewScreen> {
                     resources: resources,
                     action: PermissionRequestResponseAction.GRANT);
               },
-
-               
-              
             )
           : const Center(child: CircularProgressIndicator()),
     );
   }
-
 }
 
-
-
+class DateFormat {
+  format(now) {}
+}

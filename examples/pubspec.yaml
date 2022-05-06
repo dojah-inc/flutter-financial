@@ -16,9 +16,10 @@ dependencies:
  
 
   cupertino_icons: ^1.0.2
-  flutter_dojah_financial: 0.0.7
+  flutter_dojah_financial: 0.1.0
   json_annotation: ^4.4.0
   permission_handler: ^8.3.0
+  location: ^4.3.0
  
 
 

@@ -16,7 +16,7 @@ class DojahFinancial {
   final Map<String, dynamic>? metaData;
   final Map<String, dynamic>? config;
   final Function(dynamic)? onCloseCallback;
-  // final Function(String)? amount;
+
   
 
   DojahFinancial({

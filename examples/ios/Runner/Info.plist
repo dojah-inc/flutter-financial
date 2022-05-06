@@ -29,8 +29,13 @@
 	<key>NSCameraUsageDescription</key>
     <string>Dojah Flutter camera description.</string>
 	<key>NSMicrophoneUsageDescription</key>
-    <string>Dojah Flutter microphone description.</string>
+    <string>Dojah microphone Access.</string>
 	<key>UISupportedInterfaceOrientations</key>
+
+	<key>NSLocationWhenInUseUsageDescription</key>
+<string>Dojah needs access to location when open.</string>
+<key>NSLocationAlwaysUsageDescription</key>
+<string>Dojah needs access to location when in the background.</string>
 	
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

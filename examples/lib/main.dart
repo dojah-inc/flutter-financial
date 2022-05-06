@@ -39,25 +39,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isGranted = false;
 
-  @override
-  void initState() {
-    super.initState();
-
-    initPermissions();
-  }
-
-  Future initPermissions() async {
-    if (await Permission.camera.request().isGranted) {
-      setState(() {
-        isGranted = true;
-      });
-    }
-  }
 
 final appId= ""; //your application ID
-final publicKey = ""; //your public key
+final publicKey = ""; //your public key 
 
   @override
   Widget build(BuildContext context) {
@@ -77,14 +62,7 @@ final publicKey = ""; //your public key
               ),
 
               onPressed: () {
-                
-                if (!isGranted) {
-
-                  print("Not Granted");
-                  return;
-                }
-
-                 print("Granted");
+            
 
                 final userData = {
                   "first_name": "Michael",
