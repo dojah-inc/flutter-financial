@@ -33,6 +33,107 @@ class WebviewScreen extends StatefulWidget {
   State<WebviewScreen> createState() => _WebviewScreenState();
 }
 
+class Configuration {
+  bool? debug;
+  bool? mobile;
+  bool? otp;
+  bool? selfie;
+  bool? aml;
+  String? reviewProcess;
+  List<Pages>? pages;
+
+  Configuration(
+      {this.debug,
+      this.mobile,
+      this.otp,
+      this.selfie,
+      this.aml,
+      this.reviewProcess,
+      this.pages});
+
+  Configuration.fromJson(Map<String, dynamic> json) {
+    debug = json['debug'];
+    mobile = json['mobile'];
+    otp = json['otp'];
+    selfie = json['selfie'];
+    aml = json['aml'];
+    reviewProcess = json['review_process'];
+    if (json['pages'] != null) {
+      pages = <Pages>[];
+      json['pages'].forEach((v) {
+        pages!.add(new Pages.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['debug'] = this.debug;
+    data['mobile'] = this.mobile;
+    data['otp'] = this.otp;
+    data['selfie'] = this.selfie;
+    data['aml'] = this.aml;
+    data['review_process'] = this.reviewProcess;
+    if (this.pages != null) {
+      data['pages'] = this.pages!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Pages {
+  String? page;
+  Config? config;
+
+  Pages({this.page, this.config});
+
+  Pages.fromJson(Map<String, dynamic> json) {
+    page = json['page'];
+    config =
+        json['config'] != null ? new Config.fromJson(json['config']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['page'] = this.page;
+    if (this.config != null) {
+      data['config'] = this.config!.toJson();
+    }
+    return data;
+  }
+}
+
+class Config {
+  bool? bvn;
+  bool? nin;
+  bool? dl;
+  bool? mobile;
+  bool? otp;
+  bool? selfie;
+
+  Config({this.bvn, this.nin, this.dl, this.mobile, this.otp, this.selfie});
+
+  Config.fromJson(Map<String, dynamic> json) {
+    bvn = json['bvn'];
+    nin = json['nin'];
+    dl = json['dl'];
+    mobile = json['mobile'];
+    otp = json['otp'];
+    selfie = json['selfie'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['bvn'] = this.bvn;
+    data['nin'] = this.nin;
+    data['dl'] = this.dl;
+    data['mobile'] = this.mobile;
+    data['otp'] = this.otp;
+    data['selfie'] = this.selfie;
+    return data;
+  }
+}
+
 class _WebviewScreenState extends State<WebviewScreen> {
   InAppWebViewController? _webViewController;
 
@@ -60,11 +161,11 @@ class _WebviewScreenState extends State<WebviewScreen> {
   void initState() {
     super.initState();
 
-    initPermissions();
+    initCameraPermissions();
     initLocationPermissions();
   }
 
-  Future initPermissions() async {
+  Future initCameraPermissions() async {
     await Permission.locationWhenInUse.request();
     if (await Permission.camera.request().isGranted) {
       setState(() {
@@ -141,6 +242,26 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.type == "custom" ||
+        widget.type == "verification" ||
+        widget.type == "liveness" ||
+        widget.type == "identification") {
+      initCameraPermissions();
+    }
+
+    dynamic newConfig = widget.config;
+
+    var config = Configuration.fromJson(newConfig);
+
+    var needsLocation =
+        config.pages!.where((e) => e.page!.toLowerCase() == "address").toList();
+
+    // final needsLocation = pages.containsValue("address");
+
+    if (needsLocation.isNotEmpty) {
+      initLocationPermissions();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Dojah Widget"),
@@ -170,7 +291,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                       config: ${json.encode(widget.config ?? {})},
                                       user_data: ${json.encode(widget.userData ?? {})},
                                       metadata: ${json.encode(widget.metaData ?? {})},
-                                      _getLocation: ${json.encode(locationObject ?? {})},
+                                      __location: ${json.encode(locationObject ?? {})},
                                       amount: ${widget.amount},
                                       onSuccess: function (response) {
                                       window.flutter_inappwebview.callHandler('onSuccessCallback', response)
@@ -230,8 +351,4 @@ class _WebviewScreenState extends State<WebviewScreen> {
           : const Center(child: CircularProgressIndicator()),
     );
   }
-}
-
-class DateFormat {
-  format(now) {}
 }

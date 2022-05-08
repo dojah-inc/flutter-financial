@@ -1,9 +1,11 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_dojah_financial/flutter_dojah_financial.dart';
 import 'dart:convert';
-import 'package:permission_handler/permission_handler.dart';
+
 
 void main() async {
+
   runApp(const MyApp());
 }
 
@@ -37,9 +39,13 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
-
+Map<dynamic, dynamic> envVars = Platform.environment;
 class _HomePageState extends State<HomePage> {
 
+ 
+
+// final appId= envVars['appId']; //your application ID
+// final publicKey = envVars['publicKey']; //your public key 
 
 final appId= ""; //your application ID
 final publicKey = ""; //your public key 
@@ -84,6 +90,8 @@ final publicKey = ""; //your public key
                     { "page": "government-data", "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
 
                     {"page": "selfie"},
+
+                    {"page": "address"},
                     // {
                     //   "page": "id",
                     //   "config": {"passport": false, "dl": true}

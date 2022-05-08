@@ -11,3 +11,9 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+
+# dotenv environment variables file
+.env
+.env.test
+.vscode

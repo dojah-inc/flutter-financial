@@ -3,6 +3,7 @@
 *.log
 *.pyc
 *.swp
+.vscode
 .DS_Store
 .atom/
 .buildlog/
@@ -14,6 +15,10 @@
 *.ipr
 *.iws
 .idea/
+
+# dotenv environment variables file
+.env
+.env.test
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
