@@ -14,6 +14,10 @@ Add the following keys to your Info.plist file, located in `<project root>/ios/R
 
 - `NSMicrophoneUsageDescription` - describe why your app needs access to the microphone, if you intend to record videos. This is called Privacy - Microphone Usage Description in the visual editor.
 
+
+- `NSMicrophoneUsageDescription` - describe why your app needs access to the microphone, if you intend to record videos. This is called Privacy - Microphone Usage Description in the visual editor.
+
+
 ### Android
 ```
 // Add the camera permission: 
