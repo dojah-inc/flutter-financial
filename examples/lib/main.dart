@@ -47,8 +47,8 @@ class _HomePageState extends State<HomePage> {
 // final appId= envVars['appId']; //your application ID
 // final publicKey = envVars['publicKey']; //your public key 
 
-final appId= "6000604fb87ea60035ef41bb"; //your application ID
-final publicKey = "prod_pk_7jspvKP2FMkjkSZx1qnbgiMWy"; //your public key 
+final appId= ""; //your application ID
+final publicKey = ""; //your public key 
 
   @override
   Widget build(BuildContext context) {
