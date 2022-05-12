@@ -48,6 +48,9 @@ post_install do |installer|
 
         ## dart: PermissionGroup.microphone
          'PERMISSION_MICROPHONE=1',
+
+         ##dart: PermissionGroup.location
+         'PERMISSION_LOCATION=1',
        ]
 
        

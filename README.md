@@ -15,7 +15,20 @@ Add the following keys to your Info.plist file, located in `<project root>/ios/R
 - `NSMicrophoneUsageDescription` - describe why your app needs access to the microphone, if you intend to record videos. This is called Privacy - Microphone Usage Description in the visual editor.
 
 
-- `NSMicrophoneUsageDescription` - describe why your app needs access to the microphone, if you intend to record videos. This is called Privacy - Microphone Usage Description in the visual editor.
+- `NSLocationWhenInUseUsageDescription` - describe why your app needs access to the location, if you intend to verify address/location. This is called Privacy - Location Usage Description in the visual editor.
+
+### Podfile
+
+  Kindly include this in Podfile set up.
+
+  dart: PermissionGroup.camera
+  `PERMISSION_CAMERA=1`,
+
+  dart: PermissionGroup.microphone
+  `PERMISSION_MICROPHONE=1`,
+
+  dart: PermissionGroup.location
+  `PERMISSION_LOCATION=1`,
 
 
 ### Android
