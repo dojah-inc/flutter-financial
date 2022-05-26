@@ -111,6 +111,7 @@ class Config {
   bool? otp;
   bool? selfie;
 
+
   Config({this.bvn, this.nin, this.dl, this.mobile, this.otp, this.selfie});
 
   Config.fromJson(Map<String, dynamic> json) {
@@ -162,7 +163,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
     super.initState();
 
     initCameraPermissions();
-    initLocationPermissions();
+    
   }
 
   Future initCameraPermissions() async {
@@ -242,16 +243,24 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.type == "custom" ||
-        widget.type == "verification" ||
-        widget.type == "liveness" ||
-        widget.type == "identification") {
-      initCameraPermissions();
-    }
+    // if (widget.type == "custom" ||
+    //     widget.type == "verification" ||
+    //     widget.type == "liveness" ||
+    //     widget.type == "identification") {
+    //   initCameraPermissions();
+    // }
 
     dynamic newConfig = widget.config;
 
     var config = Configuration.fromJson(newConfig);
+
+    var needsCamera = config.selfie;
+
+    if (needsCamera == true) {
+
+     initCameraPermissions();      
+     
+    }
 
     var needsLocation =
         config.pages!.where((e) => e.page!.toLowerCase() == "address").toList();
@@ -352,3 +361,5 @@ class _WebviewScreenState extends State<WebviewScreen> {
     );
   }
 }
+
+

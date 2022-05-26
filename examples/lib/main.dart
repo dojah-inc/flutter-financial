@@ -85,6 +85,7 @@ final publicKey = ""; //your public key
                   "otp": true,
                   "selfie": true,
                   "aml": false,
+                  "webhook": true,
                   "review_process": "Automatic",
                   "pages": [
                     { "page": "government-data", "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
