@@ -117,6 +117,7 @@ final publicKey = ""; //your public key
                   userData: userData,
                   metaData: metaData,
                   config: configObj,
+                  referenceId: "ab41da7bb413939393a", //NB: referenceId length must be more that 10 characters
                 );
                 //Type is custom
 

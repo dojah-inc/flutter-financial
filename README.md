@@ -54,8 +54,9 @@ final Map<String,dynamic> config = {
  final DojahFinancial _dojahFinancial = DojahFinancial(
     appId: 'xxxxxxxxxxxxxxx',
     publicKey: 'prod_pk_xxxxxxxxxxxxxx',
-    type : 'liveness'  //link, identification, verification, payment
+    type: 'liveness'  //link, identification, verification, payment
     config: config
+    referenceId: referenceId,
   );
 
   _dojahFinancial.open(context, onSuccess: (result) {
