@@ -58,9 +58,7 @@ final publicKey = ""; //your public key
         ),
         body: Center(
             child: Column(children: <Widget>[
-
-
-                 Container(
+            Container(
             child: TextButton(
               child: const Text(
                 'Custom Widget',
@@ -106,6 +104,8 @@ final publicKey = ""; //your public key
                   
                 };
 
+                const referenceId = "123456789012";
+
                 DojahFinancial? _dojahFinancial;
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
@@ -117,7 +117,7 @@ final publicKey = ""; //your public key
                   userData: userData,
                   metaData: metaData,
                   config: configObj,
-                  referenceId: "ab41da7bb413939393a", //NB: referenceId length must be more that 10 characters
+                  referenceId: referenceId, //NB: referenceId length must be more that 10 characters
                 );
                 //Type is custom
 
@@ -133,7 +133,7 @@ final publicKey = ""; //your public key
              
             ),
           ),
-          Container(
+           Container(
             child: TextButton(
               child: const Text(
                 'Link Widget',
