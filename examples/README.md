@@ -61,7 +61,9 @@ final Map<String,dynamic> config = {
 
   _dojahFinancial.open(context, onSuccess: (result) {
     print('$result');
-  }, onError: (err) {
+  }, 
+  onClose: (close) => print('Widget Closed'),
+  onError: (err) {
     print('error: $err');
   });
 ```
