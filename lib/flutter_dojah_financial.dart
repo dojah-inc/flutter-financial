@@ -3,10 +3,6 @@ library flutter_dojah_financial;
 import 'package:flutter/material.dart';
 import 'package:flutter_dojah_financial/webview_screen.dart';
 
-
-
-
-
 class DojahFinancial {
   final String appId;
   final String publicKey;
@@ -34,6 +30,7 @@ class DojahFinancial {
 
   Future<void> open(BuildContext context,
       {Function(dynamic result)? onSuccess,
+      Function(dynamic close)? onClose,
       Function(dynamic error)? onError}) async {
     await Navigator.push(
       context,
@@ -49,6 +46,10 @@ class DojahFinancial {
           referenceId: referenceId,
           success: (result) {
             onSuccess!(result);
+          },
+
+          close: (close) {
+              onClose!(close);
           },
           error: (error) {
             onError!(error);

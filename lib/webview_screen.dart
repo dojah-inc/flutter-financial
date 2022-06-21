@@ -17,6 +17,7 @@ class WebviewScreen extends StatefulWidget {
   final Map<String, dynamic>? config;
   final Function(dynamic) success;
   final Function(dynamic) error;
+  final Function(dynamic) close;
   const WebviewScreen({
     Key? key,
     required this.appId,
@@ -29,6 +30,7 @@ class WebviewScreen extends StatefulWidget {
     this.referenceId,
     required this.success,
     required this.error,
+    required this.close,
   }) : super(key: key);
 
   @override
@@ -195,12 +197,12 @@ class _WebviewScreenState extends State<WebviewScreen> {
     }
 
     _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
+    // if (_permissionGranted == PermissionStatus.denied) {
+    //   _permissionGranted = await location.requestPermission();
+    //   if (_permissionGranted != PermissionStatus.granted) {
+    //     return;
+    //   }
+    // }
 
     _locationData = await location.getLocation();
 
@@ -339,10 +341,10 @@ class _WebviewScreenState extends State<WebviewScreen> {
                 _webViewController?.addJavaScriptHandler(
                   handlerName: 'onCloseCallback',
                   callback: (response) {
-                    //widget.onCloseCallback!(response);
-                    // if (response.first == 'close') {
-                    //   Navigator.pop(context);
-                    // }
+                    widget.close(response);
+                    if (response.first == 'close') {
+                      Navigator.pop(context);
+                    }
                   },
                 );
 
