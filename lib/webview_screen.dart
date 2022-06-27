@@ -23,9 +23,9 @@ class WebviewScreen extends StatefulWidget {
     required this.appId,
     required this.publicKey,
     required this.type,
-    required this.userData,
+    this.userData,
     this.metaData,
-    required this.config,
+    this.config,
     this.amount,
     this.referenceId,
     required this.success,
@@ -186,7 +186,6 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
     LocationData _locationData;
 
-    PermissionStatus _permissionGranted;
 
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -196,7 +195,6 @@ class _WebviewScreenState extends State<WebviewScreen> {
       }
     }
 
-    _permissionGranted = await location.hasPermission();
     // if (_permissionGranted == PermissionStatus.denied) {
     //   _permissionGranted = await location.requestPermission();
     //   if (_permissionGranted != PermissionStatus.granted) {

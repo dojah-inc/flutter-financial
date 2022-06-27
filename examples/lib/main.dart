@@ -78,10 +78,12 @@ class _HomePageState extends State<HomePage> {
                   // "webhook": true,
                   "review_process": "Automatic",
                   "pages": [
-                    //  { "page": "phone-number", "config": { "verification": true } },
+                    // { "page": "phone-number", "config": { "verification": true } },
                     // { "page": "government-data", "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
 
-                    {"page": "selfie", "config": { "verification": true }},
+                    { "page": "user-data", "config": { "enabled": false } },
+                    { "page": "countries", "config": { "enabled": false } },
+                    { "page": "selfie", "config": { "verification": true }},
 
                     // {"page": "address"},
                     // {
@@ -105,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                     appId: appId,
                     publicKey: publicKey,
                     type: "custom",
-                    userData: userData,
+                    //userData: userData,
                     metaData: metaData,
                     config: configObj,
                     // referenceId: referenceId
