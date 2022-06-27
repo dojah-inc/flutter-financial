@@ -37,6 +37,10 @@ Add the following keys to your Info.plist file, located in `<project root>/ios/R
 <uses-permission android:name="android.permission.CAMERA" />
 // Add the modify audio settings permission:
 <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+// Add the Internet settings permission:
+<uses-permission android:name="android.permission.INTERNET"/>
+// Add the Location settings permission :
+<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 ```
 
 
