@@ -1,7 +1,11 @@
 
-## Features
+## Features [KYC AND FINANCIAL WIDGET]
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+![KYC WIDGET](https://drive.google.com/file/d/1P40DCo87tcsMkxPysOgW72QphlZgJTO-/view?usp=sharing)
+
+![FINANCIAL WIDGET](https://drive.google.com/file/d/1nymTZvbQIVN4TFl-i24XF00s-KjKhyTn/view?usp=sharing)
+
+
 
 ## Installation
 
