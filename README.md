@@ -1,9 +1,9 @@
 
 ## Features [KYC AND FINANCIAL WIDGET]
 
-![KYC WIDGET](https://drive.google.com/file/d/1P40DCo87tcsMkxPysOgW72QphlZgJTO-/view?usp=sharing)
+![KYC WIDGET](img/kyc.png)
 
-![FINANCIAL WIDGET](https://drive.google.com/file/d/1nymTZvbQIVN4TFl-i24XF00s-KjKhyTn/view?usp=sharing)
+![FINANCIAL WIDGET](img/financial.png)
 
 
 
