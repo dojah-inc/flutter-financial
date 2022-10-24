@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart'
 import 'package:location/location.dart';
 
 class WebviewScreen extends StatefulWidget {
+  final String appBarName;
   final String appId;
   final String publicKey;
   final String type;
@@ -20,6 +21,7 @@ class WebviewScreen extends StatefulWidget {
   final Function(dynamic) close;
   const WebviewScreen({
     Key? key,
+    required this.appBarName,
     required this.appId,
     required this.publicKey,
     required this.type,
@@ -275,7 +277,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dojah Widget"),
+        title: Text(appBarName),
       ),
       body: isGranted
           ? InAppWebView(
@@ -333,6 +335,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                   handlerName: 'onSuccessCallback',
                   callback: (response) {
                     widget.success(response);
+                    Navigator.pop(context);
                   },
                 );
 
@@ -350,6 +353,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                   handlerName: 'onErrorCallback',
                   callback: (error) {
                     widget.error(error);
+                    Navigator.pop(context);
                   },
                 );
               },

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dojah_financial/webview_screen.dart';
 
 class DojahFinancial {
+  final String appBarName;
   final String appId;
   final String publicKey;
   final String type;
@@ -17,6 +18,7 @@ class DojahFinancial {
   
 
   DojahFinancial({
+    required this.appBarName,
     required this.appId,
     required this.publicKey,
     required this.type,
@@ -36,6 +38,7 @@ class DojahFinancial {
       context,
       MaterialPageRoute(
         builder: (context) => WebviewScreen(
+          appBarName: appBarName,
           appId: appId,
           publicKey: publicKey,
           type: type,

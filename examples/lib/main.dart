@@ -1,7 +1,8 @@
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
-import 'package:flutter_dojah_financial/flutter_dojah_financial.dart';
 import 'dart:convert';
+
+import 'package:flutter_dojah_financial/flutter_dojah_financial.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -104,6 +105,7 @@ class _HomePageState extends State<HomePage> {
                 DojahFinancial? _dojahFinancial;
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
+                  appBarName: "",
                     appId: appId,
                     publicKey: publicKey,
                     type: "custom",
@@ -144,6 +146,7 @@ class _HomePageState extends State<HomePage> {
 
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
+                  appBarName: "DOJA Widget",
                   appId: appId,
                   publicKey: publicKey,
                   type:
@@ -179,6 +182,7 @@ class _HomePageState extends State<HomePage> {
                 DojahFinancial? _dojahFinancial;
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
+                  appBarName: "DOJA Widget",
                   appId: appId,
                   publicKey: publicKey,
 
@@ -220,6 +224,7 @@ class _HomePageState extends State<HomePage> {
                 DojahFinancial? _dojahFinancial;
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
+                  appBarName: "DOJA Widget",
                   appId: appId,
                   publicKey: publicKey,
                   type:
@@ -256,6 +261,7 @@ class _HomePageState extends State<HomePage> {
                 DojahFinancial? _dojahFinancial;
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
+                  appBarName: "DOJA Widget",
                   appId: appId,
                   publicKey: publicKey,
                   type:
@@ -295,6 +301,7 @@ class _HomePageState extends State<HomePage> {
 
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
+                  appBarName: "DOJA Widget",
                   appId: appId,
                   publicKey: publicKey,
                   type:
