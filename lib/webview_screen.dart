@@ -277,7 +277,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appBarName),
+        title: Text(widget.appBarName),
       ),
       body: isGranted
           ? InAppWebView(
