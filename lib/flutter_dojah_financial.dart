@@ -1,4 +1,4 @@
-library flutter_dojah_financial;
+library flutter_dojah_kyc;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dojah_financial/webview_screen.dart';
