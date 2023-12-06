@@ -3,7 +3,6 @@
 
 ![KYC WIDGET](../img/kyc.png)
 
-
 ## Installation
 
 First, add flutter_dojah_kyc as a dependency in your `pubspec.yaml` file.
@@ -56,13 +55,41 @@ final Map<String,dynamic> config = {
   otp: true, //for verification type
   selfie: true //for verification type
 };
+
+
+  final userData = {
+          "first_name": "John",
+          "last_name": "Doe",
+          "dob": "1990-04-16",
+          "residence_country": "Nigeria",
+          "email": "abc@gmail.com"
+        };
+
+
+     final configObj = {
+      "widget_id": "Your Widget ID"
+      };
+
+
+
+
+    final metaData = {
+       "user_id": "81828289191919193882",
+    };
+
+
+
  final DojahKYC _dojahKYC = DojahKYC(
-    appId: 'xxxxxxxxxxxxxxx',
-    publicKey: 'prod_pk_xxxxxxxxxxxxxx',
-    type : 'custom' 
-    config: config,
-    referenceId : referenceId,
-  );
+    appId: appId,
+    publicKey: publicKey,
+    type: "custom",
+    userData: userData, //Optional 
+    metaData: metaData, //Optional 
+    config: configObj, 
+    govData: govData, //Optional 
+    referenceId: referenceId //Optional  
+                );
+
 
   _dojahKYC.open(context, onSuccess: (result) {
     print('$result');

@@ -68,9 +68,9 @@ class _HomePageState extends State<HomePage> {
               ),
               onPressed: () {
                 // final userData = {
-                //   "first_name": "Michael",
-                //   "last_name": "Folayan",
-                //   "dob": "1998-05-16",
+                //   "first_name": "John",
+                //   "last_name": "Dooe",
+                //   "dob": "199-05-16",
                 //   "residence_country": "Nigeria"
                 // };
 
