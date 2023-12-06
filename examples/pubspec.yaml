@@ -1,0 +1,36 @@
+name: dojah_kyc
+description: A new Flutter project.
+
+publish_to: 'none'
+
+
+version: 1.0.0+1
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+ 
+
+  cupertino_icons: ^1.0.2
+  flutter_dojah_kyc: 0.2.2
+  json_annotation: ^4.4.0
+  permission_handler: ^11.0.0
+  location: ^5.0.3
+
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+
+flutter:
+
+
+  uses-material-design: true
