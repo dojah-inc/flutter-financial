@@ -1,13 +1,13 @@
+import 'dart:convert';
 import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dojah_kyc/flutter_dojah_kyc.dart';
-import 'dart:convert';
-import 'package:location/location.dart';
+
 void main() async {
   runApp(const MyApp());
 
 // await location.requestService();
-
 }
 
 class MyApp extends StatelessWidget {
@@ -17,20 +17,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Demo',
-        theme: ThemeData(
-            // This is the theme of your application.
-            //
-            // Try running your application with "flutter run". You'll see the
-            // application has a blue toolbar. Then, without quitting the app, try
-            // changing the primarySwatch below to Colors.green and then invoke
-            // "hot reload" (press "r" in the console where you ran "flutter run",
-            // or simply save your changes to "hot reload" in a Flutter IDE).
-            // Notice that the counter didn't reset back to zero; the application
-            // is not restarted.
-            //primarySwatch: Colors.blue,
-            ),
-        home: const HomePage());
+      title: 'Demo',
+      theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          //primarySwatch: Colors.blue,
+          ),
+      home: const HomePage(),
+    );
   }
 }
 
@@ -49,7 +50,6 @@ class _HomePageState extends State<HomePage> {
 
   final appId = ""; //your application ID
   final publicKey = ""; //your public key
-
 
   @override
   Widget build(BuildContext context) {
@@ -74,15 +74,7 @@ class _HomePageState extends State<HomePage> {
                 //   "residence_country": "Nigeria"
                 // };
 
-                final configObj = {
-
-
-                  "widget_id": "64fefb41419cbc00400249ce"
-
-                };
-
-
-
+                final configObj = {"widget_id": "64fefb41419cbc00400249ce"};
 
                 final metaData = {
                   "user_id": "81828289191919193882",
@@ -94,8 +86,6 @@ class _HomePageState extends State<HomePage> {
                 //   "dl": "3243546768767453423",
                 //   "mobile": "0811234567"
                 // };
-
-              
 
                 DojahKYC? _dojahKYC;
 

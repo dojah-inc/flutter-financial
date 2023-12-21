@@ -1,11 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-
-import 'dart:convert';
+import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart'
     hide PermissionStatus;
-import 'package:location/location.dart';
-//import 'package:geolocator/geolocator.dart';
 
 class WebviewScreen extends StatefulWidget {
   final String appId;
@@ -40,6 +39,106 @@ class WebviewScreen extends StatefulWidget {
   State<WebviewScreen> createState() => _WebviewScreenState();
 }
 
+class Configuration {
+  bool? debug;
+  bool? mobile;
+  bool? otp;
+  bool? selfie;
+  bool? aml;
+  String? reviewProcess;
+  List<Pages>? pages;
+
+  Configuration(
+      {this.debug,
+      this.mobile,
+      this.otp,
+      this.selfie,
+      this.aml,
+      this.reviewProcess,
+      this.pages});
+
+  Configuration.fromJson(Map<String, dynamic> json) {
+    debug = json['debug'];
+    mobile = json['mobile'];
+    otp = json['otp'];
+    selfie = json['selfie'];
+    aml = json['aml'];
+    reviewProcess = json['review_process'];
+    if (json['pages'] != null) {
+      pages = <Pages>[];
+      json['pages'].forEach((v) {
+        pages!.add(Pages.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['debug'] = debug;
+    data['mobile'] = mobile;
+    data['otp'] = otp;
+    data['selfie'] = selfie;
+    data['aml'] = aml;
+    data['review_process'] = reviewProcess;
+    if (pages != null) {
+      data['pages'] = pages!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Pages {
+  String? page;
+  Config? config;
+
+  Pages({this.page, this.config});
+
+  Pages.fromJson(Map<String, dynamic> json) {
+    page = json['page'];
+    config = json['config'] != null ? Config.fromJson(json['config']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['page'] = page;
+    if (config != null) {
+      data['config'] = config!.toJson();
+    }
+    return data;
+  }
+}
+
+class Config {
+  bool? bvn;
+  bool? nin;
+  bool? dl;
+  bool? mobile;
+  bool? otp;
+  bool? selfie;
+
+  Config({this.bvn, this.nin, this.dl, this.mobile, this.otp, this.selfie});
+
+  Config.fromJson(Map<String, dynamic> json) {
+    bvn = json['bvn'];
+    nin = json['nin'];
+    dl = json['dl'];
+    mobile = json['mobile'];
+    otp = json['otp'];
+    selfie = json['selfie'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['bvn'] = bvn;
+    data['nin'] = nin;
+    data['dl'] = dl;
+    data['mobile'] = mobile;
+    data['otp'] = otp;
+    data['selfie'] = selfie;
+    return data;
+  }
+}
+
 class _WebviewScreenState extends State<WebviewScreen> {
   InAppWebViewController? _webViewController;
 
@@ -55,11 +154,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
     ),
     ios: IOSInAppWebViewOptions(
       allowsInlineMediaPlayback: false,
-      
     ),
-
-
-    
   );
 
   bool isGranted = false;
@@ -74,9 +169,8 @@ class _WebviewScreenState extends State<WebviewScreen> {
   @override
   void initState() {
     super.initState();
-     
 
-     getPermissions();
+    getPermissions();
     //initiateGeoLocation();
   }
 
@@ -118,18 +212,11 @@ class _WebviewScreenState extends State<WebviewScreen> {
   //   return true;
   // }
 
-Future getPermissions() async {
-
-
-
+  Future getPermissions() async {
     await initLocationPermissions();
 
     await initPermissions();
-
-
-
-   
-}
+  }
 
   Future initPermissions() async {
     if (await Permission.camera.request().isGranted) {
@@ -151,7 +238,7 @@ Future getPermissions() async {
     print("Before Permissions");
 
     _serviceEnabled = await location.serviceEnabled();
- 
+
     if (!_serviceEnabled) {
       print("Inside _serviceEnabled");
 
@@ -232,9 +319,7 @@ Future getPermissions() async {
         locationObject = _locationObject;
       });
 
-
-         //await location.enableBackgroundMode(enable: true);
-
+      //await location.enableBackgroundMode(enable: true);
     }
   }
   // returns an object with the following keys - latitude, longitude, and timezone
@@ -249,7 +334,8 @@ Future getPermissions() async {
       body: isGranted
           ? InAppWebView(
               initialData: InAppWebViewInitialData(
-                baseUrl: Uri.parse("https://widget.dojah.io"),
+                baseUrl: WebUri.uri(Uri.parse("https://widget.dojah.io")),
+                // baseUrl: Uri.parse("https://widget.dojah.io"),
                 androidHistoryUrl: Uri.parse("https://widget.dojah.io"),
                 mimeType: "text/html",
                 data: """
@@ -296,8 +382,9 @@ Future getPermissions() async {
                       </html>
                   """,
               ),
-              initialUrlRequest:
-                  URLRequest(url: Uri.parse("https://widget.dojah.io")),
+              initialUrlRequest: URLRequest(
+                url: WebUri.uri(Uri.parse("https://widget.dojah.io")),
+              ),
               initialOptions: options,
               onWebViewCreated: (controller) {
                 _webViewController = controller;
@@ -326,11 +413,8 @@ Future getPermissions() async {
                   },
                 );
               },
-          
               androidOnGeolocationPermissionsShowPrompt:
                   (controller, origin) async {
-             
-
                 return GeolocationPermissionShowPromptResponse(
                     allow: true, retain: true, origin: origin);
               },
