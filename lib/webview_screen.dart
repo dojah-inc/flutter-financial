@@ -312,6 +312,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
     if (await Permission.locationWhenInUse.request().isGranted) {
       setState(() {
+        isGranted = true;
         isLocationGranted = true;
         locationData = _locationData;
         timeZone = timeZoneName;
