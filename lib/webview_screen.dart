@@ -310,7 +310,15 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
     print(json.encode(_locationObject));
 
+    if (_permissionGranted == PermissionStatus.granted) {
+      print("Permission granted!");
+      setState(() {
+        isGranted = true;
+      });
+    }
+
     if (await Permission.locationWhenInUse.request().isGranted) {
+      print("locationWhenInUse enebaled!");
       setState(() {
         isGranted = true;
         isLocationGranted = true;
