@@ -2,7 +2,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_dojah_kyc/flutter_dojah_kyc.dart';
 import 'dart:convert';
-import 'package:location/location.dart';
+
 void main() async {
   runApp(const MyApp());
 
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                 final configObj = {
 
 
-                  "widget_id": "64fefb41419cbc00400249ce"
+                  "widget_id": "1264fefb41419cbc00400249ce"
 
                 };
 
