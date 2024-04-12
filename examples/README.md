@@ -40,7 +40,8 @@ Add the following keys to your Info.plist file, located in `<project root>/ios/R
 // Add the Internet settings permission:
 <uses-permission android:name="android.permission.INTERNET"/>
 // Add the Location settings permission :
-<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 ```
 
 

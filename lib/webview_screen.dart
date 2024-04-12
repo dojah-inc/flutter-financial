@@ -269,6 +269,11 @@ class _WebviewScreenState extends State<WebviewScreen> {
                     resources: resources,
                     action: PermissionRequestResponseAction.GRANT);
               },
+               androidOnGeolocationPermissionsShowPrompt:
+                  (controller, origin) async {
+                return GeolocationPermissionShowPromptResponse(
+                    allow: true, origin: origin, retain: true);
+              },
               onConsoleMessage: (controller, consoleMessage) {},
             )
           : const Center(child: CircularProgressIndicator()),
