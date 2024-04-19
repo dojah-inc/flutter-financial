@@ -185,13 +185,13 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                       app_id: "${widget.appId}",
                                       p_key: "${widget.publicKey}",
                                       type: "${widget.type}",
+                                      reference_id: "${widget.referenceId}",
+                                      amount: "${widget.amount}",
                                       config: ${json.encode(widget.config ?? {})},
                                       user_data: ${json.encode(widget.userData ?? {})},
                                       gov_data: ${json.encode(widget.govData ?? {})},
                                       location: ${json.encode(locationObject ?? {})},
                                       metadata: ${json.encode(widget.metaData ?? {})},
-                                      amount: ${widget.amount},
-                                      reference_id: ${widget.referenceId},
                                       onSuccess: function (response) {
                                       window.flutter_inappwebview.callHandler('onSuccessCallback', response)
                                       },
