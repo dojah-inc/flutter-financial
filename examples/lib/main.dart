@@ -67,17 +67,19 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontSize: 20.0),
               ),
               onPressed: () {
-                // final userData = {
-                //   "first_name": "John",
-                //   "last_name": "Dooe",
-                //   "dob": "199-05-16",
-                //   "residence_country": "Nigeria"
-                // };
+                final userData = {
+                  "first_name": "John",
+                  "last_name": "Dooe",
+                  "dob": "1990-01-16",
+                  "residence_country": "Nigeria"
+                };
 
                 final configObj = {
 
 
-                  "widget_id": "1264fefb41419cbc00400249ce"
+                "widget_id": "Your widget ID gotten from dashboard"
+
+              
 
                 };
 
@@ -104,11 +106,11 @@ class _HomePageState extends State<HomePage> {
                   appId: appId,
                   publicKey: publicKey,
                   type: "custom",
-                  //userData: userData,
+                  userData: userData,
                   metaData: metaData,
                   config: configObj,
                   // govData: govData,
-                  // referenceId: referenceId
+                  referenceId: "unique-identifier"
                 );
 
                 print(json.encode(configObj));
