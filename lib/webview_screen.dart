@@ -116,14 +116,14 @@ class _WebviewScreenState extends State<WebviewScreen> {
     serviceEnabled = await location.serviceEnabled();
 
     if (!serviceEnabled) {
-      print("Inside _serviceEnabled");
+      debugPrint("Inside _serviceEnabled");
 
-      print(serviceEnabled);
+      debugPrint('$serviceEnabled');
       serviceEnabled = await location.requestService();
       if (!serviceEnabled) {
-        print("Inside !_serviceEnabled");
+        debugPrint("Inside !_serviceEnabled");
 
-        print(serviceEnabled);
+        debugPrint('$serviceEnabled');
 
         return true;
       }
@@ -131,15 +131,15 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
     permissionGranted = await location.hasPermission();
     if (permissionGranted == PermissionStatus.denied) {
-      print("Inside Permission denied");
+      debugPrint("Inside Permission denied");
 
-      print(permissionGranted);
+      debugPrint('$permissionGranted');
 
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
-        print("Inside Permission granted");
+        debugPrint("Inside Permission granted");
 
-        print(permissionGranted);
+        debugPrint('$permissionGranted');
         setState(() {
           isLocationPermissionGranted = true;
         });

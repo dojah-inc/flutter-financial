@@ -54,14 +54,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Dojah Widget"),
-          //backgroundColor: Colors.yellow,
-        ),
-        body: Center(
-            child: Column(children: <Widget>[
-          Container(
-            child: TextButton(
+      appBar: AppBar(
+        title: const Text("Dojah Widget"),
+        //backgroundColor: Colors.yellow,
+      ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            TextButton(
               child: const Text(
                 'Custom Widget',
                 style: TextStyle(fontSize: 20.0),
@@ -73,22 +73,24 @@ class _HomePageState extends State<HomePage> {
                 //   "dob": "199-05-16",
                 //   "residence_country": "Nigeria"
                 // };
-
-                final configObj = {"widget_id": "64fefb41419cbc00400249ce"};
-
+            
+                final configObj = {
+                  "widget_id": "Your widget ID gotten from dashboard"
+                };
+            
                 final metaData = {
                   "user_id": "81828289191919193882",
                 };
-
+            
                 // final govData = {
                 //   "bvn": "456789654323",
                 //   "nin": "2345675411111",
                 //   "dl": "3243546768767453423",
                 //   "mobile": "0811234567"
                 // };
-
+            
                 DojahKYC? _dojahKYC;
-
+            
                 ///Use your appId and publicKey
                 _dojahKYC = DojahKYC(
                   appId: appId,
@@ -100,18 +102,20 @@ class _HomePageState extends State<HomePage> {
                   // govData: govData,
                   // referenceId: referenceId
                 );
-
-                print(json.encode(configObj));
-                print(json.encode(configObj));
+            
+                debugPrint(json.encode(configObj));
+                debugPrint(json.encode(configObj));
                 //print(userData);
-                print(configObj);
+                debugPrint('$configObj');
                 _dojahKYC.open(context,
-                    onSuccess: (result) => print(result),
-                    onClose: (close) => print('Widget Closed'),
-                    onError: (error) => print(error));
+                    onSuccess: (result) => debugPrint(result),
+                    onClose: (close) => debugPrint('Widget Closed'),
+                    onError: (error) => debugPrint(error));
               },
             ),
-          ),
-        ])));
+          ],
+        ),
+      ),
+    );
   }
 }
