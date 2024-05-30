@@ -3,64 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:permission_handler/permission_handler.dart';
-
-class DojahKYC {
-  final String appId;
-  final String publicKey;
-  final String type;
-  final int? amount;
-  final String? referenceId;
-  final Map<String, dynamic>? userData;
-  final Map<String, dynamic>? metaData;
-  final Map<String, dynamic>? govData;
-  final Map<String, dynamic>? config;
-  final Function(dynamic)? onCloseCallback;
-
-  DojahKYC({
-    required this.appId,
-    required this.publicKey,
-    required this.type,
-    this.userData,
-    this.config,
-    this.metaData,
-    this.govData,
-    this.amount,
-    this.referenceId,
-    this.onCloseCallback,
-  });
-
-  Future<void> open(BuildContext context,
-      {Function(dynamic result)? onSuccess,
-      Function(dynamic close)? onClose,
-      Function(dynamic error)? onError}) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => WebviewScreen(
-          appId: appId,
-          publicKey: publicKey,
-          type: type,
-          userData: userData,
-          metaData: metaData,
-          govData: govData,
-          config: config,
-          amount: amount,
-          referenceId: referenceId,
-          success: (result) {
-            onSuccess!(result);
-          },
-          close: (close) {
-            onClose!(close);
-          },
-          error: (error) {
-            onError!(error);
-          },
-        ),
-      ),
-    );
-  }
-}
+import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart'
+    hide PermissionStatus;
 
 class WebviewScreen extends StatefulWidget {
   final String appId;
@@ -103,7 +48,11 @@ class _WebviewScreenState extends State<WebviewScreen> {
   late PullToRefreshController pullToRefreshController;
 
   InAppWebViewSettings options = InAppWebViewSettings(
+    useShouldOverrideUrlLoading: true,
+    mediaPlaybackRequiresUserGesture: false,
+    useHybridComposition: true,
     allowsInlineMediaPlayback: true,
+    javaScriptEnabled: false,
   );
 
   bool isGranted = false;
@@ -120,7 +69,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
     super.initState();
     getPermissions();
     pullToRefreshController = PullToRefreshController(
-      //settings: PullToRefreshSettings(color: Colors.blue),
+      settings: PullToRefreshSettings(color: Colors.blue),
       onRefresh: () async {
         if (Platform.isAndroid) {
           _webViewController.reload();
@@ -134,6 +83,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
   }
 
   Future getPermissions() async {
+    await initLocationPermissions();
     await initPermissions();
   }
 
@@ -154,6 +104,78 @@ class _WebviewScreenState extends State<WebviewScreen> {
     }
   }
 
+  Future initLocationPermissions() async {
+    bool serviceEnabled;
+
+    Location location = Location();
+
+    LocationData locationData;
+
+    PermissionStatus permissionGranted;
+
+    serviceEnabled = await location.serviceEnabled();
+
+    if (!serviceEnabled) {
+      debugPrint("Inside _serviceEnabled");
+
+      debugPrint('$serviceEnabled');
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        debugPrint("Inside !_serviceEnabled");
+
+        debugPrint('$serviceEnabled');
+
+        return true;
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      debugPrint("Inside Permission denied");
+
+      debugPrint('$permissionGranted');
+
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        debugPrint("Inside Permission granted");
+
+        debugPrint('$permissionGranted');
+        setState(() {
+          isLocationPermissionGranted = true;
+        });
+        return true;
+      }
+    }
+
+    locationData = await location.getLocation();
+
+    final latitude = locationData.latitude;
+
+    final longitude = locationData.longitude;
+
+    DateTime dateTime = DateTime.now();
+
+    final timeZoneName = dateTime.timeZoneName;
+    final timeZoneOffset = dateTime.timeZoneOffset;
+
+    locationObject = {
+      "lat": latitude,
+      "long": longitude,
+      "timezone": timeZoneName,
+      //"timezoneOffset" : timeZoneOffset,
+    };
+
+    if (await Permission.locationWhenInUse.request().isGranted) {
+      setState(() {
+        isLocationGranted = true;
+        locationData = locationData;
+        timeZone = timeZoneName;
+        zoneOffset = timeZoneOffset;
+        locationObject = locationObject;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,7 +183,6 @@ class _WebviewScreenState extends State<WebviewScreen> {
       body: isGranted
           ? InAppWebView(
               key: webViewKey,
-              initialSettings: options,
               initialData: InAppWebViewInitialData(
                 baseUrl: WebUri("https://widget.dojah.io"),
                 historyUrl: WebUri("https://widget.dojah.io"),
@@ -185,13 +206,13 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                       app_id: "${widget.appId}",
                                       p_key: "${widget.publicKey}",
                                       type: "${widget.type}",
-                                      reference_id: "${widget.referenceId}",
-                                      amount: "${widget.amount}",
                                       config: ${json.encode(widget.config ?? {})},
                                       user_data: ${json.encode(widget.userData ?? {})},
                                       gov_data: ${json.encode(widget.govData ?? {})},
                                       location: ${json.encode(locationObject ?? {})},
                                       metadata: ${json.encode(widget.metaData ?? {})},
+                                      amount: ${widget.amount},
+                                      reference_id: ${widget.referenceId},
                                       onSuccess: function (response) {
                                       window.flutter_inappwebview.callHandler('onSuccessCallback', response)
                                       },
@@ -241,14 +262,16 @@ class _WebviewScreenState extends State<WebviewScreen> {
                   },
                 );
               },
-              onPermissionRequest: Platform.isAndroid
-                  ? null
-                  : (controller, origin) async {
-                      return PermissionResponse(
-                        resources: [],
-                        action: PermissionResponseAction.GRANT,
-                      );
-                    },
+              onGeolocationPermissionsShowPrompt: (controller, origin) async {
+                return GeolocationPermissionShowPromptResponse(
+                    allow: true, retain: true, origin: origin);
+              },
+              onPermissionRequest: (controller, origin) async {
+                return PermissionResponse(
+                  resources: [],
+                  action: PermissionResponseAction.GRANT,
+                );
+              },
               onLoadStop: (controller, url) {
                 pullToRefreshController.endRefreshing();
               },
@@ -262,17 +285,6 @@ class _WebviewScreenState extends State<WebviewScreen> {
                 setState(() {
                   this.progress = progress / 100;
                 });
-              },
-              androidOnPermissionRequest:
-                  (controller, origin, resources) async {
-                return PermissionRequestResponse(
-                    resources: resources,
-                    action: PermissionRequestResponseAction.GRANT);
-              },
-               androidOnGeolocationPermissionsShowPrompt:
-                  (controller, origin) async {
-                return GeolocationPermissionShowPromptResponse(
-                    allow: true, origin: origin, retain: true);
               },
               onConsoleMessage: (controller, consoleMessage) {},
             )

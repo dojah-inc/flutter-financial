@@ -32,6 +32,27 @@ Add the following keys to your Info.plist file, located in `<project root>/ios/R
 
   dart: PermissionGroup.location
   `PERMISSION_LOCATION=1`,
+  ```
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      flutter_additional_ios_build_settings(target)
+      target.build_configurations.each do |config|
+        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
+          '$(inherited)',
+
+          ## dart: PermissionGroup.camera
+          'PERMISSION_CAMERA=1',
+
+          ## dart: PermissionGroup.microphone
+          'PERMISSION_MICROPHONE=1',
+
+          ## dart: PermissionGroup.location
+          'PERMISSION_LOCATION=1',
+        ]
+      end
+    end
+  end
+  ```
 
 
 ### Android
